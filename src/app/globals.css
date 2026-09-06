@@ -1,11 +1,10 @@
 @import "tailwindcss";
 
-/* Palettes lifted from the iOS app's Theme.swift.
-   PAPER is the page in daylight: pure white, neutral greys, nothing warm —
-   so the maroon is the only colour in the room.
-   AMOLED is the same page under one lamp: cream type, warm greys, pure black
-   ground. The accent has to change between them, not by preference: #7c2230
-   lands at ~2.1:1 on black, which is unreadable. */
+/* Palettes from the iOS app's Theme.swift — the product's own identity.
+   PAPER is the page in daylight: pure white, neutral greys, nothing warm, so
+   the maroon is the only colour in the room. AMOLED is the same page under one
+   lamp: cream type, warm greys, pure black ground. The accent changes between
+   them out of necessity — #7c2230 lands at ~2.1:1 on black. */
 :root {
   --bg: #ffffff;
   --card: #ffffff;
@@ -19,7 +18,6 @@
   --acc: #7c2230;
   --acc-ink: #ffffff;
   --plate: #dedee3;
-  --shadow: 0 16px 38px rgba(0, 0, 0, 0.16);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -36,7 +34,6 @@
     --acc: #f04a2f;
     --acc-ink: #ffffff;
     --plate: #26221c;
-    --shadow: 0 16px 38px rgba(0, 0, 0, 0.75);
   }
 }
 
@@ -53,7 +50,6 @@
   --acc: #f04a2f;
   --acc-ink: #ffffff;
   --plate: #26221c;
-  --shadow: 0 16px 38px rgba(0, 0, 0, 0.75);
 }
 
 @theme inline {
@@ -78,345 +74,95 @@ body {
   color: var(--ink);
   font-family: var(--font-hanken-grotesk), ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-/* The section rule: a 4px-tall double hairline, as in the app. */
-.rule-double {
-  border-top: 1px solid var(--line2);
-  border-bottom: 1px solid var(--line2);
-  height: 4px;
-}
-
-/* Tracking also lands after the last glyph, which pushes a centred label off
-   centre. Taking it back off makes the optical edge the real edge. */
+/* Uppercase, wide-tracked micro-label. Tracking lands after the last glyph
+   too, so it comes back off to make the optical edge the real edge. */
 .micro {
-  font-size: 9px;
+  font-size: 9.5px;
   font-weight: 700;
   letter-spacing: 2.2px;
   text-transform: uppercase;
   margin-right: -2.2px;
 }
 
-/* ── The wall ──────────────────────────────────────────────────────────────
-   "The wall is the app background itself — same paper, same night."
-   Plaster tooth, one soft pool of light from the upper left, a baseboard at
-   the very bottom of the room. */
-
-.wall {
-  position: relative;
-  isolation: isolate;
+/* A section rule: 4px of double hairline, as in the app. */
+.rule-double {
+  border-top: 1px solid var(--line2);
+  border-bottom: 1px solid var(--line2);
+  height: 4px;
 }
 
-/* Plaster speckle. Neutral by day so the white stays white; a faint lift at
-   night. Drawn, not shipped — it is fractal noise, not an asset. */
-.wall::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -2;
-  pointer-events: none;
-  opacity: 0.05;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/></filter><rect width='180' height='180' filter='url(%23n)'/></svg>");
+/* Display type wants tighter fitting than the browser gives it. */
+.display {
+  font-family: var(--font-instrument-serif), Georgia, serif;
+  letter-spacing: -0.018em;
+  line-height: 0.98;
+  text-wrap: balance;
 }
 
-:root[data-theme="amoled"] .wall::before {
-  opacity: 0.028;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="paper"]) .wall::before {
-    opacity: 0.028;
-  }
-}
-
-/* Daylight, or the one lamp. */
-.wall::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: radial-gradient(
-    120% 90% at 38% 24%,
-    var(--glow) 0%,
-    transparent 70%
-  );
-}
-
-:root {
-  --glow: rgba(255, 255, 255, 0);
-  --node-shadow: rgba(0, 0, 0, 0.22);
-  --paper-white: #ffffff;
-  --pin-hi: #c4b69c;
-  --pin-lo: #8d8069;
-  --card-paper: #fefdfb;
-  --card-ink: #3a332c;
-  --photo-dim: 0;
-  --glass-sheen: rgba(255, 255, 255, 0.1);
-  --wood-light: #b08d62;
-  --wood-dark: #7d5f3d;
-  --sticky: #f8e9a0;
-  --frame-stroke: rgba(0, 0, 0, 0.22);
-  --string: #9c8f7a;
-  --wire: #5b5244;
-}
-:root[data-theme="amoled"] {
-  --glow: rgba(255, 201, 141, 0.06);
-  --node-shadow: rgba(0, 0, 0, 0.7);
-  --paper-white: #cfc5b3;
-  --pin-hi: #9c8f7b;
-  --pin-lo: #5c5346;
-  --card-paper: #2c2620;
-  --card-ink: #e6dccb;
-  --photo-dim: 0.24;
-  --glass-sheen: rgba(255, 255, 255, 0.05);
-  --wood-light: #755a3b;
-  --wood-dark: #4c3826;
-  --sticky: #c9b671;
-  --frame-stroke: rgba(0, 0, 0, 0.5);
-  --string: #6e6152;
-  --wire: #121009;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="paper"]) {
-    --glow: rgba(255, 201, 141, 0.06);
-    --node-shadow: rgba(0, 0, 0, 0.7);
-    --paper-white: #cfc5b3;
-    --pin-hi: #9c8f7b;
-    --pin-lo: #5c5346;
-    --card-paper: #2c2620;
-    --card-ink: #e6dccb;
-    --photo-dim: 0.24;
-    --glass-sheen: rgba(255, 255, 255, 0.05);
-    --wood-light: #755a3b;
-    --wood-dark: #4c3826;
-    --sticky: #c9b671;
-    --frame-stroke: rgba(0, 0, 0, 0.5);
-    --string: #6e6152;
-    --wire: #121009;
-  }
-}
-
-/* The baseboard, and the hint of floor under it. */
-.baseboard {
-  height: 2px;
-  background: color-mix(in srgb, var(--ink) 12%, transparent);
-}
-
-/* ── Objects ─────────────────────────────────────────────────────────────── */
-
-/* The pin, its thread, and the card that hangs off it. */
-.pin {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle at 34% 28%,
-    var(--pin-hi) 0%,
-    var(--pin-lo) 100%
-  );
-  box-shadow: 0 1.5px 2px var(--node-shadow);
-}
-
-.thread {
-  width: 1px;
-  height: 16px;
-  background: color-mix(in srgb, var(--card-ink) 26%, transparent);
-}
-
-.card {
-  background: var(--card-paper);
-  border: 1px solid color-mix(in srgb, var(--card-ink) 16%, transparent);
-  box-shadow: 0 5px 7px var(--node-shadow);
-}
-
-/* A photo plate: the image inside a 7px-padded card with a hairline border. */
-.plate {
-  background: var(--paper-white);
-  padding: 7px;
-  border: 1px solid var(--plate);
-  box-shadow: var(--shadow);
-}
-
-/* ── Hanging ─────────────────────────────────────────────────────────────
-   Nothing fades up. Things come off a nail and settle: down 14px, five
-   degrees off square, then true. One after another, so a bare wall fills
-   instead of presenting a list. */
-
-/* Everything is on the wall to begin with. Only once we know there is a
-   script to hang it do we take it down and let it settle back — so the page
-   without JavaScript is a finished page, not an empty one. */
-.hang {
-  transform-origin: top center;
-}
-
-.js .hang {
-  opacity: 0;
-  transform: translateY(-14px) rotate(-5deg);
-}
-
-.js .hang.hung {
+/* ── Motion ──────────────────────────────────────────────────────────────
+   Everything is present before the script runs. Only once we know something
+   is here to move it does it start out of place. */
+.rise {
   opacity: 1;
-  transform: translateY(0) rotate(var(--rest, 0deg));
+}
+.js .rise {
+  opacity: 0;
+  transform: translateY(14px);
+}
+.js .rise.shown {
+  opacity: 1;
+  transform: none;
   transition:
-    opacity 0.42s ease-out var(--delay, 0s),
-    transform 0.62s cubic-bezier(0.22, 1.1, 0.36, 1) var(--delay, 0s);
+    opacity 0.6s cubic-bezier(0.22, 0.61, 0.36, 1) var(--delay, 0s),
+    transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1) var(--delay, 0s);
 }
 
-/* The house hangs everything a hair off square. */
-.askew-a { --rest: -1.1deg; }
-.askew-b { --rest: 0.8deg; }
-.askew-c { --rest: -0.6deg; }
-
-/* The splash's one gesture: a 2px maroon line drawn through a word we mean
-   to refuse. */
+/* A line drawn through something we mean to refuse. */
 .struck {
-  display: inline;
   background-image: linear-gradient(var(--acc), var(--acc));
   background-repeat: no-repeat;
-  background-position: 0 0.62em;
-  background-size: 100% 2px;
+  background-position: 0 0.58em;
+  background-size: 100% 1.5px;
 }
-
 .js .struck {
-  background-size: 0% 2px;
+  background-size: 0% 1.5px;
+}
+.js .struck.shown {
+  background-size: 100% 1.5px;
+  transition: background-size 0.55s cubic-bezier(0.45, 0.05, 0.15, 1)
+    var(--delay, 0s);
 }
 
-.js .struck.hung {
-  background-size: 100% 2px;
-  transition: background-size 0.5s cubic-bezier(0.45, 0.05, 0.15, 1)
+/* Diagram strokes draw themselves in. */
+.js .draw {
+  stroke-dasharray: var(--len, 200);
+  stroke-dashoffset: var(--len, 200);
+}
+.js .drawn-shown .draw {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 0.9s cubic-bezier(0.45, 0.05, 0.15, 1)
     var(--delay, 0s);
 }
 
 /* Calm over capture: if the reader would rather nothing moved, nothing does. */
 @media (prefers-reduced-motion: reduce) {
-  .js .hang,
-  .js .hang.hung {
+  .js .rise,
+  .js .rise.shown {
     opacity: 1;
     transform: none;
     transition: none;
   }
   .js .struck,
-  .js .struck.hung {
-    background-size: 100% 2px;
+  .js .struck.shown {
+    background-size: 100% 1.5px;
     transition: none;
   }
-}
-
-/* ── The wall stage ──────────────────────────────────────────────────────── */
-
-:root {
-  --vinyl-sheen-a: rgba(255, 255, 255, 0.16);
-  --vinyl-sheen-b: rgba(255, 255, 255, 0.11);
-  --bulb-halo: 0;
-}
-:root[data-theme="amoled"] {
-  --vinyl-sheen-a: rgba(255, 255, 255, 0.1);
-  --vinyl-sheen-b: rgba(255, 255, 255, 0.07);
-  --bulb-halo: 1;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="paper"]) {
-    --vinyl-sheen-a: rgba(255, 255, 255, 0.1);
-    --vinyl-sheen-b: rgba(255, 255, 255, 0.07);
-    --bulb-halo: 1;
-  }
-}
-
-/* At night the bulbs glow and gently twinkle; by day they are just glass. */
-.bulb-halo {
-  opacity: var(--bulb-halo);
-}
-:root[data-theme="amoled"] .bulb,
-:root:not([data-theme="paper"]) .bulb {
-  animation: twinkle 2.9s ease-in-out infinite;
-  animation-delay: var(--twinkle-delay, 0s);
-}
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme="amoled"]) .bulb {
-    animation: none;
-  }
-}
-@keyframes twinkle {
-  0%, 100% { opacity: 0.66; }
-  50% { opacity: 1; }
-}
-
-/* Every piece is hand-placed: a rotation, a depth for the parallax, and a
-   lift when the pointer is on it — the app raises a piece before it comes
-   off the wall. */
-.piece {
-  position: absolute;
-  transform: translate3d(
-      calc(var(--px, 0) * var(--depth, 0) * 1px),
-      calc(var(--py, 0) * var(--depth, 0) * 1px),
-      0
-    )
-    rotate(var(--tilt, 0deg));
-  transition: filter 0.35s ease;
-  will-change: transform;
-}
-
-.piece-lift {
-  transition:
-    transform 0.32s cubic-bezier(0.2, 0.9, 0.3, 1.2),
-    filter 0.32s ease;
-}
-.piece-lift:hover {
-  transform: scale(1.045);
-  filter: drop-shadow(0 14px 18px var(--node-shadow));
-  cursor: pointer;
-  z-index: 30;
-}
-
-.stage {
-  transform-origin: top center;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .piece {
-    transform: rotate(var(--tilt, 0deg));
-  }
-  .bulb {
-    animation: none !important;
-  }
-}
-
-/* ── Looking at one piece ────────────────────────────────────────────────── */
-
-/* The room with the lights down and the focus pulled off it — the same
-   treatment the scan screen gives the camera. */
-.viewer-scrim {
-  background: color-mix(in srgb, var(--bg) 95%, transparent);
-  backdrop-filter: blur(14px) saturate(0.7);
-  -webkit-backdrop-filter: blur(14px) saturate(0.7);
-}
-.viewer-scrim::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    circle at 50% 46%,
-    color-mix(in srgb, var(--node-shadow) 40%, transparent) 0%,
-    transparent 62%
-  );
-}
-.viewer {
-  animation: viewer-in 0.28s ease-out both;
-}
-.viewer-piece {
-  animation: piece-in 0.36s cubic-bezier(0.2, 0.9, 0.3, 1.15) both;
-}
-@keyframes viewer-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-@keyframes piece-in {
-  from { opacity: 0; transform: scale(0.86); }
-  to { opacity: 1; transform: scale(1); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .viewer,
-  .viewer-piece {
-    animation: none;
+  .js .draw,
+  .js .drawn-shown .draw {
+    stroke-dashoffset: 0;
+    transition: none;
   }
 }

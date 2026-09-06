@@ -1,10 +1,12 @@
-import { Hung, Struck } from "@/components/hung";
-import { OnANail, QrMark } from "@/components/objects";
-import { Vinyl } from "@/components/wall/pieces";
-import { WallStage } from "@/components/wall/stage";
+import {
+  CountsDiagram,
+  FeedDiagram,
+  MeetDiagram,
+  PostDiagram,
+} from "@/components/diagrams";
+import { Rise, Struck } from "@/components/reveal";
 import { ThemeToggle } from "@/components/theme-toggle";
 
-/** Uppercase, wide-tracked micro-label — the workhorse of the whole aesthetic. */
 function Micro({
   children,
   className = "text-faint",
@@ -15,49 +17,63 @@ function Micro({
   return <p className={`micro ${className}`}>{children}</p>;
 }
 
-/** A section, named by exactly one kicker. The accent marks structure; the
- *  rest of the section is ink. */
+/** A section, named by exactly one kicker. The accent marks structure and
+ *  state, and nothing else. */
 function Section({
   kicker,
+  title,
   children,
+  id,
 }: {
   kicker: string;
+  title: string;
   children: React.ReactNode;
+  id?: string;
 }) {
   return (
-    <section className="mt-24">
-      <Hung>
-        <Micro className="text-acc">{kicker}</Micro>
-        <div className="rule-double mt-3 mb-8" />
-      </Hung>
-      {children}
+    <section id={id} className="border-t border-line py-20 sm:py-28">
+      <div className="grid gap-5 md:grid-cols-[9rem_1fr] md:gap-12">
+        <Rise>
+          <Micro className="text-acc md:pt-3">{kicker}</Micro>
+        </Rise>
+        <div>
+          <Rise>
+            <h2 className="display max-w-[20ch] text-[clamp(2rem,4.6vw,3.25rem)]">
+              {title}
+            </h2>
+          </Rise>
+          {children}
+        </div>
+      </div>
     </section>
   );
 }
 
-const PRINCIPLES = [
-  ["Friends only", "No creators, no strangers, no public figures."],
-  [
-    "In-person to connect",
-    "You must meet someone and exchange a profile QR code. That’s the only way in.",
-  ],
-  ["No discovery", "No explore, no search, no reels, no recommendations."],
-  ["Finite, not infinite", "The feed ends. No bottomless scroll."],
-  ["No performance", "No vanity metrics, no filters, no trends."],
-  [
-    "Calm over capture",
-    "Success is closing the app to go see someone, not time-on-app.",
-  ],
-];
-
-const FIRST_VERSION = [
-  "iOS only, invite-only — existing users invite new ones.",
-  "QR-based, in-person-only friend connection.",
-  "A single chronological, finite home feed.",
-  "Two kinds of thing to post: photographs with a caption, and quotes.",
-  "A profile with two tabs: posts and quotes.",
-  "Messages: text, voice notes and calls only.",
-  "Quiet reactions only — a private heart, a voice reply. No counts.",
+const STEPS = [
+  {
+    n: "01",
+    title: "You have to meet.",
+    body: "The only way to become friends on Privet is to stand in front of someone and trade profile codes. No requests, no suggestions, no search, no strangers. If you haven’t met, you can’t connect — and neither can anyone else, however famous they are.",
+    diagram: <MeetDiagram />,
+  },
+  {
+    n: "02",
+    title: "The feed ends.",
+    body: "One feed, your friends only, in the order things actually happened. Nothing ranked, nothing recommended, no bottomless scroll. You reach the end — and then you’re done for the day.",
+    diagram: <FeedDiagram />,
+  },
+  {
+    n: "03",
+    title: "Two things to post.",
+    body: "A photograph with a caption, or a quote — a line of text worth keeping. No filters, no stickers, no trends. Your profile holds them in two tabs, and that is the whole surface area.",
+    diagram: <PostDiagram />,
+  },
+  {
+    n: "04",
+    title: "Nothing is counted.",
+    body: "Reactions are private: a quiet heart, or a voice note back. No like counts, no follower counts, no view counts — not for you, not for anyone. Messages are text, voice notes and calls.",
+    diagram: <CountsDiagram />,
+  },
 ];
 
 const BANNED = [
@@ -67,172 +83,175 @@ const BANNED = [
   "The pull-to-refresh slot machine",
   "Like, follower and view counts",
   "Leaderboards",
-  "Streak-pressure",
+  "Streaks",
   "Growth nudges",
   "Guilt pings",
-  "Any mechanic that rewards screen time",
+  "Ads, ever",
 ];
 
-const ASKEW = ["askew-a", "askew-b", "askew-c"];
+const NEXT = [
+  {
+    when: "Now",
+    title: "Version one, on iOS",
+    body: "Invite-only and free. Meet, connect, post, read to the end, put it down. Nothing else ships until that loop feels right.",
+  },
+  {
+    when: "Next",
+    title: "Profiles that sound like a person",
+    body: "More than posts and quotes — the music, the books, the films you’d actually tell a friend about.",
+  },
+  {
+    when: "Later",
+    title: "A subscription, once it’s earned",
+    body: "Free until the network is indispensable. Pricing follows value, it doesn’t precede it — and it’s a subscription rather than ads, because the business model should be you.",
+  },
+];
 
 export default function Home() {
   return (
-    <div className="wall">
-      {/* The room itself */}
-      <WallStage />
+    <div className="mx-auto max-w-[68rem] px-6 sm:px-10">
+      {/* Masthead */}
+      <header className="flex items-center justify-between py-7">
+        <Micro className="text-ink">Privet</Micro>
+        <Micro>Est. 2026</Micro>
+      </header>
 
-      <main className="mx-auto max-w-[38rem] px-7 pb-20 pt-4">
-        {/* The tagline, under the room */}
-        <header className="text-center">
-          <Hung>
-            <p className="font-serif text-[22px] italic leading-[1.45] text-it">
-              A calm, invite-only social app where you only see people you’ve
-              actually met — built for connection, not performance.
-            </p>
-          </Hung>
-
-          {/* The splash's one gesture, at the splash's own pace: each refusal
-              struck through in maroon, then the thing that is left. */}
-          <div className="mt-10 font-serif text-[32px] leading-[1.4]">
-            <p>
-              <Struck index={7}>No filters.</Struck>
-            </p>
-            <p>
-              <Struck index={15}>No trends.</Struck>
-            </p>
-            <Hung index={13}>
-              <p className="italic text-acc">Only friends.</p>
-            </Hung>
+      {/* The one thing to understand */}
+      <section className="flex min-h-[78svh] flex-col justify-center pb-16 md:pl-[10.5rem]">
+        <Rise>
+          <h1 className="display max-w-[15ch] text-[clamp(3rem,8.6vw,6.5rem)]">
+            Only the people you’ve actually met.
+          </h1>
+        </Rise>
+        <Rise index={2}>
+          <p className="mt-10 max-w-[48ch] text-[clamp(1.05rem,1.7vw,1.3rem)] leading-[1.65] text-sub">
+            Privet is a calm, invite-only social app for staying close to your
+            friends instead of performing for an audience. You get in by meeting
+            someone in person and trading codes. There is no other way in.
+          </p>
+        </Rise>
+        <Rise index={4}>
+          <div className="mt-12 flex flex-wrap items-center gap-x-7 gap-y-3">
+            {["Invite only", "iOS first", "Free at launch"].map((fact) => (
+              <Micro key={fact} className="text-faint">
+                {fact}
+              </Micro>
+            ))}
           </div>
-        </header>
+        </Rise>
+      </section>
 
-        <Section kicker="The problem">
-          <Hung>
-            <p className="font-serif text-[20px] leading-[1.5] text-ink2">
+      <Section kicker="Why" title="Social media stopped being social.">
+        <div className="mt-8 max-w-[54ch] space-y-7">
+          <Rise index={1}>
+            <p className="text-[1.125rem] leading-[1.7] text-sub">
               People are exhausted by algorithmic, influencer-driven,
-              performance-obsessed social media. They want to stay close to the
-              people they actually know without the FOMO, trends, ads, and
-              overstimulation. There is no quiet, friends-only place left.
+              performance-obsessed feeds — the FOMO, the trends, the ads, the
+              constant low-grade overstimulation. What they actually want is to
+              stay close to the people they already know.
             </p>
-          </Hung>
-        </Section>
-
-        {/* Six nails, six answers */}
-        <Section kicker="Non-negotiable">
-          <ul className="grid gap-x-6 gap-y-10 sm:grid-cols-2">
-            {PRINCIPLES.map(([title, body], i) => (
-              <li key={title}>
-                <Hung index={i} className={ASKEW[i % ASKEW.length]}>
-                  <OnANail>
-                    <div className="card w-full px-5 py-4">
-                      <h2 className="font-serif text-[23px] leading-tight">
-                        {title}
-                      </h2>
-                      <div
-                        className="my-3 h-px"
-                        style={{
-                          background:
-                            "color-mix(in srgb, var(--card-ink) 14%, transparent)",
-                        }}
-                      />
-                      <p className="text-[14.5px] leading-[1.5] text-sub">
-                        {body}
-                      </p>
-                    </div>
-                  </OnANail>
-                </Hung>
-              </li>
-            ))}
-          </ul>
-        </Section>
-
-        {/* The one sanctioned ornament: an opening quote mark, set at display
-            size, for a line somebody wrote. The record beside it is the
-            cheapest way to say "a wall holds more than photographs". */}
-        <div className="mt-24 flex items-start gap-7">
-          <Hung className="shrink-0 pt-2">
-            <Vinyl diameter={104} labelText="both ways" />
-          </Hung>
-          <Hung index={1}>
-            <figure className="flex gap-4">
-              <span
-                aria-hidden
-                className="font-serif text-[56px] leading-[0.8] text-acc"
-              >
-                “
-              </span>
-              <blockquote className="font-serif text-[26px] leading-[1.35] text-ink2">
-                The walls go both ways. Fame doesn’t get you a window in.
-              </blockquote>
-            </figure>
-          </Hung>
+          </Rise>
+          <Rise index={2}>
+            <p className="font-serif text-[clamp(1.4rem,2.6vw,1.9rem)] leading-[1.35] text-ink2">
+              There is no quiet, friends-only place left. So we’re building one.
+            </p>
+          </Rise>
         </div>
+      </Section>
 
-        <Section kicker="The first version">
-          <Hung className="askew-c">
-            <div className="plate">
-              <ul className="bg-card px-6 py-2">
-                {FIRST_VERSION.map((item) => (
-                  <li
-                    key={item}
-                    className="border-b border-line py-3.5 text-[15px] leading-[1.5] text-sub last:border-0"
-                  >
-                    {item}
-                  </li>
-                ))}
-              </ul>
+      <Section
+        kicker="How it works"
+        title="Four decisions. Everything else follows."
+      >
+        <div className="mt-16 space-y-20 sm:space-y-24">
+          {STEPS.map((step, i) => (
+            <div
+              key={step.n}
+              className="grid items-center gap-10 sm:gap-14 md:grid-cols-2"
+            >
+              <Rise className={i % 2 ? "md:order-2" : undefined}>
+                <Micro className="text-acc">{step.n}</Micro>
+                <h3 className="display mt-4 text-[clamp(1.75rem,3.4vw,2.5rem)]">
+                  {step.title}
+                </h3>
+                <p className="mt-5 max-w-[46ch] text-[1.125rem] leading-[1.7] text-sub">
+                  {step.body}
+                </p>
+              </Rise>
+              <Rise index={1} className={i % 2 ? "md:order-1" : undefined}>
+                {step.diagram}
+              </Rise>
             </div>
-          </Hung>
-        </Section>
+          ))}
+        </div>
+      </Section>
 
-        <Section kicker="Banned patterns">
-          <ul className="columns-1 gap-x-8 sm:columns-2">
-            {BANNED.map((item, i) => (
-              <li
-                key={item}
-                className="mb-2.5 break-inside-avoid font-serif text-[19px] leading-[1.5] text-ink2"
-              >
-                <Struck index={i}>{item}</Struck>
-              </li>
-            ))}
-          </ul>
-        </Section>
+      <Section kicker="The constitution" title="Things Privet will never have.">
+        <ul className="mt-10 grid gap-x-12 gap-y-4 border-y border-line py-9 sm:grid-cols-2">
+          {BANNED.map((item, i) => (
+            <li
+              key={item}
+              className="font-serif text-[clamp(1.2rem,2.1vw,1.5rem)] leading-[1.5] text-ink2"
+            >
+              <Struck index={i}>{item}</Struck>
+            </li>
+          ))}
+        </ul>
+        <Rise index={2}>
+          <p className="mt-12 max-w-[46ch] text-[1.125rem] leading-[1.7] text-sub">
+            If a mechanic exists to make you stay longer, it doesn’t go in.
+            Success is you closing the app to go and see someone.
+          </p>
+        </Rise>
+      </Section>
 
-        <Section kicker="Price">
-          <div className="flex flex-wrap items-center justify-between gap-8">
-            <Hung>
-              <p className="font-serif text-[30px] leading-[1.2]">
-                Free at launch.
-              </p>
-              <p className="mt-2 max-w-[22rem] text-[15px] leading-[1.5] text-sub">
-                A subscription later. Pricing follows value, not precedes it —
-                free until the network is indispensable.
-              </p>
-            </Hung>
-            <Hung index={1} className="askew-b">
-              <div className="plate">
-                <div className="grid place-items-center bg-card p-5">
-                  <QrMark />
-                  <p className="micro mt-4 text-faint">In person, or not at all</p>
+      <Section kicker="What we’re building" title="Small, on purpose, in this order.">
+        <ol className="mt-14 space-y-px">
+          {NEXT.map((stage, i) => (
+            <li key={stage.when}>
+              <Rise index={i}>
+                <div className="grid gap-4 border-t border-line py-8 md:grid-cols-[8rem_1fr]">
+                  <p
+                    className={`font-serif text-[1.5rem] leading-none ${
+                      i === 0 ? "text-acc" : "text-faint"
+                    }`}
+                  >
+                    {stage.when}
+                  </p>
+                  <div>
+                    <h3 className="font-serif text-[clamp(1.3rem,2.4vw,1.75rem)] leading-tight">
+                      {stage.title}
+                    </h3>
+                    <p className="mt-3 max-w-[52ch] text-[1.125rem] leading-[1.7] text-sub">
+                      {stage.body}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </Hung>
-          </div>
-        </Section>
+              </Rise>
+            </li>
+          ))}
+        </ol>
+      </Section>
 
-        <footer className="mt-28">
-          <div className="rule-double mb-6" />
-          <div className="flex items-baseline justify-between gap-6">
-            <p className="font-serif text-[19px] italic text-it">
-              There are no strangers here.
-            </p>
-            <ThemeToggle />
-          </div>
-        </footer>
-      </main>
+      <Section kicker="Getting in" title="You can’t sign up.">
+        <Rise index={1}>
+          <p className="mt-8 max-w-[50ch] text-[1.125rem] leading-[1.7] text-sub">
+            There’s no waitlist and no request button, and there won’t be one.
+            Privet grows the way friendships do — one person bringing another,
+            in the same room. If you’re meant to be here, someone will show you
+            their code.
+          </p>
+        </Rise>
+      </Section>
 
-      {/* the bottom of the room */}
-      <div className="baseboard" />
+      <footer className="border-t border-line py-12">
+        <div className="flex flex-wrap items-baseline justify-between gap-6">
+          <p className="font-serif text-[1.25rem] italic text-it">
+            There are no strangers here.
+          </p>
+          <ThemeToggle />
+        </div>
+      </footer>
     </div>
   );
 }
