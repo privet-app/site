@@ -148,7 +148,7 @@ export default function Home() {
                 </p>
                 <p className="mt-6 max-w-[44ch] font-serif text-[clamp(1.3rem,2.3vw,1.7rem)] italic leading-[1.45] text-it">
                   The song on repeat. The film you&rsquo;d defend to the death.
-                  Who the GOAT is — loudly, and forever.
+                  Who the GOAT is, and why everyone else is wrong.
                 </p>
               </Rise>
               <Rise index={2}>
