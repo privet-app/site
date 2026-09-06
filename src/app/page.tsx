@@ -66,6 +66,8 @@ function TabSection({
 
 const BANNED = [
   "Ads",
+  "Trackers",
+  "Data brokers",
   "Reels",
   "Influencers",
   "Infinite scroll",
@@ -225,6 +227,10 @@ export default function Home() {
               <Rise index={2}>
                 <p className="mt-12 max-w-[46ch] text-[1.125rem] leading-[1.7] opacity-80">
                   If it exists to keep you here longer, it doesn&rsquo;t go in.
+                </p>
+                <p className="mt-6 max-w-[46ch] text-[1.125rem] leading-[1.7] opacity-80">
+                  What&rsquo;s on Privet stays between the people in it. You pay
+                  for it, so you are never the thing being sold.
                 </p>
               </Rise>
             </div>
