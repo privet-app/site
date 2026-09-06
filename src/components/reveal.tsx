@@ -69,19 +69,3 @@ export function Struck({
     </span>
   );
 }
-
-/** A diagram that draws itself once, when you get to it. */
-export function Drawn({
-  children,
-  className = "",
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
-  const { ref, shown } = useShown<HTMLDivElement>();
-  return (
-    <div ref={ref} className={`${shown ? "drawn-shown" : ""} ${className}`}>
-      {children}
-    </div>
-  );
-}

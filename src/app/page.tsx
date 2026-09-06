@@ -31,14 +31,12 @@ function TabSection({
   kicker,
   title,
   body,
-  note,
   screen,
   flip = false,
 }: {
   kicker: string;
   title: React.ReactNode;
   body: string;
-  note: string;
   screen: React.ReactNode;
   flip?: boolean;
 }) {
@@ -55,10 +53,6 @@ function TabSection({
               <p className="mt-7 max-w-[42ch] text-[1.125rem] leading-[1.7] text-sub">
                 {body}
               </p>
-              <div className="mt-8 flex items-center gap-3">
-                <span className="dash" />
-                <Micro className="text-faint">{note}</Micro>
-              </div>
             </Rise>
           </div>
           <Rise index={1} className={flip ? "md:order-1" : undefined}>
@@ -80,22 +74,21 @@ const BANNED = [
   "Streak pressure",
 ];
 
-
 const NEXT = [
   {
     when: "Now",
     title: "Version one, on iOS",
-    body: "Invite-only and free. Meet, connect, post, read to the end, put it down. Nothing else ships until that loop feels right.",
+    body: "Meet, connect, post, read to the end, put it down. Nothing else ships until that loop feels right.",
   },
   {
     when: "Next",
     title: "Walls that sound like a person",
-    body: "Beyond posts and quotes — the music, the books, the films you’d actually tell a friend about.",
+    body: "The music, the books, the films you’d actually tell a friend about.",
   },
   {
     when: "Later",
     title: "A subscription, once it’s earned",
-    body: "Free until we earn your trust. Pricing follows value, it doesn’t precede it — and it’s a subscription rather than ads, because the business model should be you.",
+    body: "Pricing follows value, it doesn’t precede it. A subscription, never ads — the business model should be you.",
   },
 ];
 
@@ -127,18 +120,9 @@ export default function Home() {
           </Rise>
           <Rise index={4}>
             <p className="mt-11 max-w-[44ch] text-[1.0625rem] leading-[1.7] text-sub">
-              Invite-only, iOS, and free until we earn your trust. Your people
-              post and you see it — and when you reach the end, that is
-              everything there is.
+              Invite-only, iOS, free until we earn your trust. Reach the end and
+              you put down the phone and go see someone.
             </p>
-          </Rise>
-        </Container>
-        <Container className="pb-12">
-          <Rise index={5}>
-            <div className="flex items-center justify-center gap-3">
-              <span className="dash" />
-              <Micro className="text-faint">Someone has to let you in</Micro>
-            </div>
           </Rise>
         </Container>
       </section>
@@ -159,16 +143,8 @@ export default function Home() {
               </Rise>
               <Rise index={1}>
                 <p className="mt-8 max-w-[50ch] text-[clamp(1.15rem,1.9vw,1.35rem)] leading-[1.65] text-ink2">
-                  Your profile is a room you decorate — framed photographs and
-                  the plate by your door, a record, a ticket stub, a line pinned
-                  to the plaster. Not a grid of everything you have ever posted.
-                </p>
-                <p className="mt-6 max-w-[50ch] text-[1.125rem] leading-[1.7] text-sub">
-                  It is where the things you love hang beside the people you
-                  love: the album on repeat, the film you will defend to
-                  anybody, the book you keep pressing on people, the postcard
-                  from the one good week. Specifics, not a bio — which is why it
-                  reads like a person from the first day.
+                  A room you decorate, not a grid of everything you ever posted.
+                  The things you love, hung beside the people you love.
                 </p>
               </Rise>
               <Rise index={2}>
@@ -187,10 +163,6 @@ export default function Home() {
                       {thing}
                     </Micro>
                   ))}
-                </div>
-                <div className="mt-9 flex items-center gap-3">
-                  <span className="dash" />
-                  <Micro className="text-faint">Walls never start empty</Micro>
                 </div>
               </Rise>
             </div>
@@ -214,14 +186,6 @@ export default function Home() {
               </div>
             </Rise>
           </div>
-          <Rise>
-            <div className="mt-12 flex items-center justify-center gap-3 sm:mt-4">
-              <span className="dash" />
-              <Micro className="text-faint">
-                Two ends of one wall · nothing on a grid
-              </Micro>
-            </div>
-          </Rise>
         </Container>
       </section>
 
@@ -241,8 +205,7 @@ export default function Home() {
               </Rise>
               <Rise index={1}>
                 <p className="mt-8 max-w-[46ch] text-[1.125rem] leading-[1.7] opacity-85">
-                  Not features we haven&rsquo;t got round to. Refusals — the
-                  list is the product.
+                  Not missing features. Refusals.
                 </p>
               </Rise>
               <ul className="mt-12 grid gap-x-12 gap-y-5 border-y border-[color-mix(in_srgb,var(--acc-ink)_28%,transparent)] py-12 sm:grid-cols-2">
@@ -257,8 +220,7 @@ export default function Home() {
               </ul>
               <Rise index={2}>
                 <p className="mt-12 max-w-[46ch] text-[1.125rem] leading-[1.7] opacity-80">
-                  If a mechanic exists to make you stay longer, it doesn&rsquo;t
-                  go in. Success is you closing the app to go and see someone.
+                  If it exists to keep you here longer, it doesn&rsquo;t go in.
                 </p>
               </Rise>
             </div>
@@ -269,16 +231,14 @@ export default function Home() {
       <TabSection
         kicker="Admittance"
         title={<>You both have to be in the room.</>}
-        body="The only way to become friends is to stand in front of someone and trade passes. No requests, no search, no suggestions, no strangers — and no window in for anyone famous either. The walls go both ways."
-        note="Both of you have to be there. That’s the point."
+        body="Meet someone, trade passes. No requests, no search, no strangers — and no way in for anyone famous. The walls go both ways."
         screen={<Shot name="connect" alt="A member pass, with its code" />}
       />
 
       <TabSection
         kicker="The feed"
         title={<>It arrives now. And it still ends.</>}
-        body="Your people post, and it is there — not tomorrow morning. In the order it happened, nothing ranked, nothing recommended. And then it ends, because they ran out of things to say and not because a clock closed the edition."
-        note="Posts arrive instantly. Notices don’t — one a day, never after six."
+        body="Your people post, you see it. In order, nothing ranked. Then it ends — because they ran out, not because a clock did."
         screen={<Shot name="issue" alt="The feed, open on a phone" />}
         flip
       />
@@ -286,8 +246,7 @@ export default function Home() {
       <TabSection
         kicker="Correspondence"
         title={<>Ordered by warmth, not by unread.</>}
-        body="Messages are voice notes, calls and text — nothing else. People sit in the order of how close you actually are, not of what you haven’t opened, and a friendship going cold is a quiet line of type rather than a red dot."
-        note="No read receipts · no typing dots · no last seen"
+        body="Voice notes, calls, text. Nothing else. Ordered by how close you are, not by what you haven’t opened."
         screen={
           <Shot name="hallway" alt="The hallway, doors ordered by warmth" />
         }
@@ -344,10 +303,8 @@ export default function Home() {
               You can’t sign up.
             </h2>
             <p className="mx-auto mt-8 max-w-[46ch] text-[1.125rem] leading-[1.7] text-sub">
-              There’s no waitlist and no request button, and there won’t be one.
-              Privet grows the way friendships do — one person bringing another,
-              in the same room. If you’re meant to be here, someone will show
-              you their code.
+              No waitlist, no request button. Privet grows the way friendships
+              do — one person bringing another, in the same room.
             </p>
           </Rise>
         </Container>

@@ -19,9 +19,6 @@
   --acc-ink: #ffffff;
   --acc-fill: #7c2230;
   --shot-bezel: color-mix(in srgb, var(--ink) 9%, var(--bg));
-  --bezel-lit: color-mix(in srgb, var(--ink) 3%, var(--bg));
-  --bezel-shade: color-mix(in srgb, var(--ink) 18%, var(--bg));
-  --glass-lip: rgba(0, 0, 0, 0.16);
   --shot-ring: color-mix(in srgb, var(--ink) 16%, transparent);
   --shot-lift: 0 44px 90px -24px rgba(0, 0, 0, 0.42);
   --shot-halo: transparent;
@@ -43,9 +40,6 @@
     --acc-ink: #ffffff;
     --acc-fill: #6d1d29;
     --shot-bezel: color-mix(in srgb, var(--ink) 15%, var(--bg));
-    --bezel-lit: color-mix(in srgb, var(--ink) 28%, var(--bg));
-    --bezel-shade: color-mix(in srgb, var(--ink) 6%, var(--bg));
-    --glass-lip: rgba(0, 0, 0, 0.6);
     --shot-ring: color-mix(in srgb, var(--ink) 40%, transparent);
     --shot-lift: 0 44px 90px -24px rgba(0, 0, 0, 0.95);
     --shot-halo: color-mix(in srgb, var(--ink) 12%, transparent);
@@ -67,9 +61,6 @@
   --acc-ink: #ffffff;
   --acc-fill: #6d1d29;
   --shot-bezel: color-mix(in srgb, var(--ink) 15%, var(--bg));
-  --bezel-lit: color-mix(in srgb, var(--ink) 28%, var(--bg));
-  --bezel-shade: color-mix(in srgb, var(--ink) 6%, var(--bg));
-  --glass-lip: rgba(0, 0, 0, 0.6);
   --shot-ring: color-mix(in srgb, var(--ink) 40%, transparent);
   --shot-lift: 0 44px 90px -24px rgba(0, 0, 0, 0.95);
   --shot-halo: color-mix(in srgb, var(--ink) 12%, transparent);
@@ -155,23 +146,6 @@ body {
     filter 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) var(--delay, 0s);
 }
 
-/* The short accent rule draws itself out from the margin. */
-.dash {
-  display: block;
-  height: 1px;
-  width: 2rem;
-  background: var(--acc);
-  transform-origin: left center;
-}
-.js .rise .dash {
-  transform: scaleX(0);
-}
-.js .rise.shown .dash {
-  transform: scaleX(1);
-  transition: transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1)
-    calc(var(--delay, 0s) + 0.3s);
-}
-
 /* A line drawn through something we mean to refuse. */
 .struck {
   background-image: linear-gradient(var(--acc), var(--acc));
@@ -188,17 +162,6 @@ body {
     var(--delay, 0s);
 }
 
-/* Diagram strokes draw themselves in. */
-.js .draw {
-  stroke-dasharray: var(--len, 200);
-  stroke-dashoffset: var(--len, 200);
-}
-.js .drawn-shown .draw {
-  stroke-dashoffset: 0;
-  transition: stroke-dashoffset 0.9s cubic-bezier(0.45, 0.05, 0.15, 1)
-    var(--delay, 0s);
-}
-
 /* Calm over capture: if the reader would rather nothing moved, nothing does. */
 @media (prefers-reduced-motion: reduce) {
   .js .rise,
@@ -210,11 +173,6 @@ body {
   .js .struck,
   .js .struck.shown {
     background-size: 100% 1.5px;
-    transition: none;
-  }
-  .js .draw,
-  .js .drawn-shown .draw {
-    stroke-dashoffset: 0;
     transition: none;
   }
 }
@@ -285,7 +243,6 @@ body {
   );
 }
 
-
 /* ── Scroll-driven drift ────────────────────────────────────────────────
    A phone shifts a little as it passes through the window, so the page has
    depth without anything jumping. Pure CSS on a view() timeline — no
@@ -339,11 +296,6 @@ body,
   .js .rise,
   .js .rise.shown {
     filter: none;
-  }
-  .js .rise .dash,
-  .js .rise.shown .dash {
-    transform: none;
-    transition: none;
   }
 }
 
@@ -416,7 +368,6 @@ body,
   }
 }
 
-
 /* The appearance switch rides in the corner of the window rather than at the
    foot of the page, so it is reachable from anywhere in a long read. */
 .theme-dock {
@@ -440,7 +391,6 @@ body,
     padding: 0.5rem 0.8rem;
   }
 }
-
 
 /* A screen that is black on a page that is black has no edge of its own, so
    the frame gives it one — thin: a hair of bezel a shade off the ground, a
