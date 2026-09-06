@@ -72,8 +72,15 @@
   --font-sans: var(--font-hanken-grotesk);
 }
 
+/* The decorative glows and the hanging angles both reach past their boxes;
+   neither should ever be able to widen the page. Body alone is not enough —
+   the overflow escapes to the root. */
+html,
 body {
   overflow-x: clip;
+}
+
+body {
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font-hanken-grotesk), ui-sans-serif, system-ui, sans-serif;
@@ -221,8 +228,9 @@ body {
      lands at about 27px. */
   border-radius: 27px;
   box-shadow:
-    0 44px 90px -24px rgba(0, 0, 0, 0.42),
-    0 0 0 1px color-mix(in srgb, var(--ink) 10%, transparent);
+    var(--shot-lift),
+    0 0 0 1px var(--shot-ring),
+    0 0 70px -10px var(--shot-halo);
 }
 .shot-amoled {
   display: none;
@@ -353,8 +361,9 @@ body,
 }
 .wall-pair .shot {
   box-shadow:
-    0 52px 100px -26px rgba(0, 0, 0, 0.5),
-    0 0 0 1px color-mix(in srgb, var(--ink) 10%, transparent);
+    var(--shot-lift),
+    0 0 0 1px var(--shot-ring),
+    0 0 90px -12px var(--shot-halo);
 }
 /* the scroll drift would fight the hanging angles */
 .wall-pair .stand {
@@ -369,6 +378,12 @@ body,
     gap: 3rem;
     padding-bottom: 0;
   }
+  /* A rotated box is wider than its width: at this angle the extra reach is
+     about height * sin(angle), so the screens come in a little to keep their
+     corners off the margin. */
+  .wall-pair .stand {
+    max-width: 278px;
+  }
   .hung-a {
     transform: rotate(-1.4deg);
   }
@@ -381,5 +396,30 @@ body,
 @media (prefers-reduced-motion: reduce) {
   .hung-b {
     transform: translateY(7rem);
+  }
+}
+
+
+/* The appearance switch rides in the corner of the window rather than at the
+   foot of the page, so it is reachable from anywhere in a long read. */
+.theme-dock {
+  position: fixed;
+  top: 1.1rem;
+  right: 1.1rem;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  padding: 0.6rem 0.95rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--bg) 76%, transparent);
+  backdrop-filter: blur(16px) saturate(1.3);
+  -webkit-backdrop-filter: blur(16px) saturate(1.3);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ink) 11%, transparent);
+}
+@media (max-width: 640px) {
+  .theme-dock {
+    top: 0.7rem;
+    right: 0.7rem;
+    padding: 0.5rem 0.8rem;
   }
 }

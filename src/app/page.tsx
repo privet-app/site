@@ -104,6 +104,10 @@ const NEXT = [
 export default function Home() {
   return (
     <div>
+      <div className="theme-dock">
+        <ThemeToggle />
+      </div>
+
       {/* The masthead, as the app opens on it */}
       <section className="flex min-h-[92svh] flex-col border-b border-line">
         <Container className="flex flex-1 flex-col items-center justify-center py-20 text-center">
@@ -141,55 +145,52 @@ export default function Home() {
         </Container>
       </section>
 
-      <TabSection
-        kicker="The feed"
-        title={<>It arrives now. And it still ends.</>}
-        body="Your people post, and it is there — not tomorrow morning. In the order it happened, nothing ranked, nothing recommended. And then it ends, because they ran out of things to say and not because a clock closed the edition."
-        note="Posts arrive instantly. Notices don’t — one a day, never after six."
-        screen={<Shot name="issue" alt="The feed, open on a phone" />}
-      />
-
-      <TabSection
-        kicker="Admittance"
-        title={<>You both have to be in the room.</>}
-        body="The only way to become friends is to stand in front of someone and trade passes. No requests, no search, no suggestions, no strangers — and no window in for anyone famous either. The walls go both ways."
-        note="Both of you have to be there. That’s the point."
-        screen={<Shot name="connect" alt="A member pass, with its code" />}
-        flip
-      />
-
-      <TabSection
-        kicker="Correspondence"
-        title={<>Ordered by warmth, not by unread.</>}
-        body="Messages are voice notes, calls and text — nothing else. People sit in the order of how close you actually are, not of what you haven’t opened, and a friendship going cold is a quiet line of type rather than a red dot."
-        note="No read receipts · no typing dots · no last seen"
-        screen={
-          <Shot name="hallway" alt="The hallway, doors ordered by warmth" />
-        }
-      />
-
-      {/* The wall gets the whole width — one screen cannot hold it */}
-      <section className="border-t border-line py-20 sm:py-28">
+      {/* THE WALL — the room you decorate, and the reason any of this is
+          worth having. It leads, and it takes the whole width. */}
+      <section className="border-t border-line py-24 sm:py-32">
         <Container>
           <div className="grid gap-5 md:grid-cols-[9rem_1fr] md:gap-12">
             <Rise>
-              <Micro className="text-acc md:pt-3">The wall</Micro>
+              <Micro className="text-acc md:pt-4">The wall</Micro>
             </Rise>
             <div>
               <Rise>
-                <h2 className="display text-[clamp(2.5rem,6vw,4.25rem)]">
+                <h2 className="display text-[clamp(2.75rem,7vw,5rem)]">
                   A wall, not a grid.
                 </h2>
               </Rise>
               <Rise index={1}>
-                <p className="mt-7 max-w-[52ch] text-[1.125rem] leading-[1.7] text-sub">
+                <p className="mt-8 max-w-[50ch] text-[clamp(1.15rem,1.9vw,1.35rem)] leading-[1.65] text-ink2">
                   Your profile is a room you decorate — framed photographs and
                   the plate by your door, a record, a ticket stub, a line pinned
-                  to the plaster. It reads like a person on day one, and it
-                  keeps going: the things you love sit on the same wall as the
-                  people you love.
+                  to the plaster. Not a grid of everything you have ever posted.
                 </p>
-                <div className="mt-8 flex items-center gap-3">
+                <p className="mt-6 max-w-[50ch] text-[1.125rem] leading-[1.7] text-sub">
+                  It is where the things you love hang beside the people you
+                  love: the album on repeat, the film you will defend to
+                  anybody, the book you keep pressing on people, the postcard
+                  from the one good week. Specifics, not a bio — which is why it
+                  reads like a person from the first day.
+                </p>
+              </Rise>
+              <Rise index={2}>
+                <div className="mt-10 flex flex-wrap items-center gap-x-5 gap-y-3">
+                  {[
+                    "Photographs",
+                    "Quotes",
+                    "Records",
+                    "Books",
+                    "Films",
+                    "Ticket stubs",
+                    "Postcards",
+                    "Notes",
+                  ].map((thing) => (
+                    <Micro key={thing} className="text-faint">
+                      {thing}
+                    </Micro>
+                  ))}
+                </div>
+                <div className="mt-9 flex items-center gap-3">
                   <span className="dash" />
                   <Micro className="text-faint">Walls never start empty</Micro>
                 </div>
@@ -226,24 +227,31 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* The one place the page raises its voice */}
-      <section className="on-acc py-24 sm:py-32">
+      {/* WHAT IT IS NOT — the one place the page raises its voice, and it
+          comes early, because the refusals are the product. */}
+      <section className="on-acc py-28 sm:py-36">
         <Container>
           <div className="grid gap-6 md:grid-cols-[10rem_1fr] md:gap-12">
             <Rise>
-              <p className="micro opacity-70 md:pt-4">The constitution</p>
+              <p className="micro opacity-70 md:pt-4">What it is not</p>
             </Rise>
             <div>
               <Rise>
-                <h2 className="display max-w-[16ch] text-[clamp(2.5rem,6vw,4.25rem)]">
+                <h2 className="display max-w-[16ch] text-[clamp(2.75rem,7vw,5rem)]">
                   Things Privet will never have.
                 </h2>
               </Rise>
-              <ul className="mt-12 grid gap-x-12 gap-y-4 border-y border-[color-mix(in_srgb,var(--acc-ink)_28%,transparent)] py-10 sm:grid-cols-2">
+              <Rise index={1}>
+                <p className="mt-8 max-w-[46ch] text-[1.125rem] leading-[1.7] opacity-85">
+                  Not features we haven&rsquo;t got round to. Refusals — the
+                  list is the product.
+                </p>
+              </Rise>
+              <ul className="mt-12 grid gap-x-12 gap-y-5 border-y border-[color-mix(in_srgb,var(--acc-ink)_28%,transparent)] py-12 sm:grid-cols-2">
                 {BANNED.map((item, i) => (
                   <li
                     key={item}
-                    className="font-serif text-[clamp(1.25rem,2.2vw,1.6rem)] leading-[1.45]"
+                    className="font-serif text-[clamp(1.45rem,2.7vw,2rem)] leading-[1.35]"
                   >
                     <Struck index={i}>{item}</Struck>
                   </li>
@@ -251,14 +259,41 @@ export default function Home() {
               </ul>
               <Rise index={2}>
                 <p className="mt-12 max-w-[46ch] text-[1.125rem] leading-[1.7] opacity-80">
-                  If a mechanic exists to make you stay longer, it doesn’t go
-                  in. Success is you closing the app to go and see someone.
+                  If a mechanic exists to make you stay longer, it doesn&rsquo;t
+                  go in. Success is you closing the app to go and see someone.
                 </p>
               </Rise>
             </div>
           </div>
         </Container>
       </section>
+
+      <TabSection
+        kicker="Admittance"
+        title={<>You both have to be in the room.</>}
+        body="The only way to become friends is to stand in front of someone and trade passes. No requests, no search, no suggestions, no strangers — and no window in for anyone famous either. The walls go both ways."
+        note="Both of you have to be there. That’s the point."
+        screen={<Shot name="connect" alt="A member pass, with its code" />}
+      />
+
+      <TabSection
+        kicker="The feed"
+        title={<>It arrives now. And it still ends.</>}
+        body="Your people post, and it is there — not tomorrow morning. In the order it happened, nothing ranked, nothing recommended. And then it ends, because they ran out of things to say and not because a clock closed the edition."
+        note="Posts arrive instantly. Notices don’t — one a day, never after six."
+        screen={<Shot name="issue" alt="The feed, open on a phone" />}
+        flip
+      />
+
+      <TabSection
+        kicker="Correspondence"
+        title={<>Ordered by warmth, not by unread.</>}
+        body="Messages are voice notes, calls and text — nothing else. People sit in the order of how close you actually are, not of what you haven’t opened, and a friendship going cold is a quiet line of type rather than a red dot."
+        note="No read receipts · no typing dots · no last seen"
+        screen={
+          <Shot name="hallway" alt="The hallway, doors ordered by warmth" />
+        }
+      />
 
       <section className="border-t border-line py-20 sm:py-28">
         <Container>
@@ -326,7 +361,7 @@ export default function Home() {
             <p className="font-serif text-[1.25rem] italic text-it">
               There are no strangers here.
             </p>
-            <ThemeToggle />
+            <Micro className="text-faint">Privet · Est. 2026</Micro>
           </div>
         </Container>
       </footer>
