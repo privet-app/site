@@ -19,6 +19,9 @@
   --acc-ink: #ffffff;
   --acc-fill: #7c2230;
   --shot-bezel: color-mix(in srgb, var(--ink) 9%, var(--bg));
+  --bezel-lit: color-mix(in srgb, var(--ink) 3%, var(--bg));
+  --bezel-shade: color-mix(in srgb, var(--ink) 18%, var(--bg));
+  --glass-lip: rgba(0, 0, 0, 0.16);
   --shot-ring: color-mix(in srgb, var(--ink) 16%, transparent);
   --shot-lift: 0 44px 90px -24px rgba(0, 0, 0, 0.42);
   --shot-halo: transparent;
@@ -40,6 +43,9 @@
     --acc-ink: #ffffff;
     --acc-fill: #6d1d29;
     --shot-bezel: color-mix(in srgb, var(--ink) 15%, var(--bg));
+    --bezel-lit: color-mix(in srgb, var(--ink) 28%, var(--bg));
+    --bezel-shade: color-mix(in srgb, var(--ink) 6%, var(--bg));
+    --glass-lip: rgba(0, 0, 0, 0.6);
     --shot-ring: color-mix(in srgb, var(--ink) 40%, transparent);
     --shot-lift: 0 44px 90px -24px rgba(0, 0, 0, 0.95);
     --shot-halo: color-mix(in srgb, var(--ink) 12%, transparent);
@@ -61,6 +67,9 @@
   --acc-ink: #ffffff;
   --acc-fill: #6d1d29;
   --shot-bezel: color-mix(in srgb, var(--ink) 15%, var(--bg));
+  --bezel-lit: color-mix(in srgb, var(--ink) 28%, var(--bg));
+  --bezel-shade: color-mix(in srgb, var(--ink) 6%, var(--bg));
+  --glass-lip: rgba(0, 0, 0, 0.6);
   --shot-ring: color-mix(in srgb, var(--ink) 40%, transparent);
   --shot-lift: 0 44px 90px -24px rgba(0, 0, 0, 0.95);
   --shot-halo: color-mix(in srgb, var(--ink) 12%, transparent);
@@ -434,14 +443,32 @@ body,
 
 
 /* A screen that is black on a page that is black has no edge of its own, so
-   the frame provides one: a hair of bezel a shade lighter than the ground,
-   a ring, and a lift. Both strengthen under the lamp. */
+   the frame gives it one. Not device chrome — the page's material is paper,
+   and a titanium body would argue with it — but a real edge with thickness:
+   a bezel a shade off the ground, lit along its top where the room's light
+   falls, dark along the bottom, and lifted off the page. */
 .shot-frame {
-  padding: 5px;
-  border-radius: 32px;
-  background: var(--shot-bezel);
+  position: relative;
+  padding: 9px;
+  border-radius: 34px;
+  background: linear-gradient(
+    to bottom,
+    var(--bezel-lit) 0%,
+    var(--shot-bezel) 38%,
+    var(--bezel-shade) 100%
+  );
   box-shadow:
     var(--shot-lift),
     0 0 0 1px var(--shot-ring),
     0 0 70px -10px var(--shot-halo);
+}
+
+/* the hairline where the glass meets the bezel */
+.shot-frame::after {
+  content: "";
+  position: absolute;
+  inset: 9px;
+  border-radius: 26px;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px var(--glass-lip);
 }
