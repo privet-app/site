@@ -18,6 +18,7 @@
   --acc: #7c2230;
   --acc-ink: #ffffff;
   --acc-fill: #7c2230;
+  --mat: #ffffff;
   --plate: #dedee3;
 }
 
@@ -35,6 +36,7 @@
     --acc: #f04a2f;
     --acc-ink: #ffffff;
     --acc-fill: #6d1d29;
+    --mat: #cfc5b3;
     --plate: #26221c;
   }
 }
@@ -52,6 +54,7 @@
   --acc: #f04a2f;
   --acc-ink: #ffffff;
   --acc-fill: #6d1d29;
+  --mat: #cfc5b3;
   --plate: #26221c;
 }
 
@@ -202,4 +205,114 @@ body {
     color-mix(in srgb, var(--ink) 9%, transparent) 0%,
     transparent 72%
   );
+}
+
+/* ── The app, rebuilt ────────────────────────────────────────────────────── */
+
+/* Every screen wears the same masthead rule. */
+.screen {
+  width: 390px;
+  height: 800px;
+  background: var(--bg);
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 40px 80px -20px rgba(0, 0, 0, 0.28),
+    0 0 0 1px var(--plate);
+}
+
+/* The floating tab bar: a glass pill that sits over the page, not under it. */
+.tabbar {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tabbar-pill {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 62px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--card) 78%, transparent);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.14),
+    inset 0 0 0 1px color-mix(in srgb, var(--ink) 8%, transparent);
+}
+.tabbar-add {
+  display: grid;
+  place-items: center;
+  width: 62px;
+  height: 62px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--card) 78%, transparent);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.14),
+    inset 0 0 0 1px color-mix(in srgb, var(--ink) 8%, transparent);
+}
+.tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 0 10px;
+  height: 50px;
+  justify-content: center;
+  border-radius: 999px;
+  color: var(--sub);
+}
+.tab-on {
+  color: var(--acc);
+  background: color-mix(in srgb, var(--ink) 6%, transparent);
+}
+.tab-label {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+}
+
+/* A photograph in its plate. */
+.plate {
+  background: var(--card);
+  padding: 7px;
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.16);
+  outline: 1px solid var(--plate);
+}
+
+/* The maroon pill the app uses for the one action on a screen. */
+.pill {
+  display: grid;
+  place-items: center;
+  height: 52px;
+  border-radius: 999px;
+  background: var(--acc-fill);
+  color: var(--acc-ink);
+}
+
+/* The screens are drawn at their real size; small windows stand further back.
+   The wrapper carries the scaled box, because a transform moves pixels and
+   leaves the layout width where it was — which is an overflowing page. */
+.screen-fit {
+  width: 390px;
+  height: 800px;
+  max-width: 100%;
+}
+@media (max-width: 500px) {
+  .screen-fit {
+    width: 296px;
+    height: 607px;
+  }
+  .screen-fit > .screen {
+    transform: scale(0.759);
+    transform-origin: top left;
+  }
 }
