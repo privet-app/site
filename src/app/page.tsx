@@ -77,7 +77,7 @@ const BANNED = [
   "The pull-to-refresh slot machine",
   "Like, follower and view counts",
   "Leaderboards",
-  "Streaks you can lose",
+  "Streaks, of any kind",
   "Growth nudges",
   "Guilt pings",
   "Ads, ever",
@@ -120,7 +120,7 @@ export default function Home() {
           </Rise>
           <Rise index={3}>
             <p className="mt-10 max-w-[17ch] font-serif text-[clamp(2rem,4.6vw,3.25rem)] italic leading-[1.22] text-ink2">
-              A daily paper of the people you actually know.
+              A paper of the people you actually know.
             </p>
           </Rise>
           <Rise index={4}>
@@ -142,11 +142,11 @@ export default function Home() {
       </section>
 
       <TabSection
-        kicker="The daily issue"
-        title={<>Your friends, once a day. Then it stops.</>}
-        body="Everything your friends posted arrives as one issue, in the order it actually happened. Nothing ranked, nothing recommended, and nothing more when you reach the end. A five-minute read, and then you put it down."
-        note="Delivered at seven. One nudge, never after six."
-        screen={<Shot name="issue" alt="The daily issue, open on a phone" />}
+        kicker="The feed"
+        title={<>It arrives now. And it still ends.</>}
+        body="Your people post, and it is there — not tomorrow morning. In the order it happened, nothing ranked, nothing recommended. And then it ends, because they ran out of things to say and not because a clock closed the edition."
+        note="Posts arrive instantly. Notices don’t — one a day, never after six."
+        screen={<Shot name="issue" alt="The feed, open on a phone" />}
       />
 
       <TabSection
