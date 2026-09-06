@@ -104,49 +104,40 @@ const NEXT = [
 export default function Home() {
   return (
     <div>
-      {/* The masthead, and today's cover as the app opens on it */}
-      <section className="border-b border-line py-16 sm:py-24">
-        <Container>
-          <div className="grid items-center gap-14 md:grid-cols-[1.05fr_0.95fr] md:gap-12">
-            <div className="hero-settle text-center md:text-left">
-              <Rise>
-                <Micro className="text-acc">Est. 2026 · By introduction only</Micro>
-              </Rise>
-              <Rise index={1}>
-                <h1 className="display mt-7 text-[clamp(4rem,11vw,8.5rem)]">
-                  Privet
-                </h1>
-              </Rise>
-              <Rise index={2}>
-                <div className="rule-double mx-auto mt-6 w-[min(22rem,80%)] md:mx-0" />
-              </Rise>
-              <Rise index={3}>
-                <p className="mx-auto mt-9 max-w-[20ch] font-serif text-[clamp(1.75rem,3.6vw,2.6rem)] italic leading-[1.25] text-ink2 md:mx-0">
-                  A daily paper of the people you actually know.
-                </p>
-              </Rise>
-              <Rise index={4}>
-                <p className="mx-auto mt-10 max-w-[44ch] text-[1.0625rem] leading-[1.7] text-sub md:mx-0">
-                  Invite-only, iOS, free at launch. Your friends&rsquo; day
-                  arrives once as one issue — you read it to the end, and then
-                  it&rsquo;s done.
-                </p>
-              </Rise>
-              <Rise index={5}>
-                <div className="mt-9 flex items-center justify-center gap-3 md:justify-start">
-                  <span className="dash" />
-                  <Micro className="text-faint">Someone has to let you in</Micro>
-                </div>
-              </Rise>
+      {/* The masthead, as the app opens on it */}
+      <section className="flex min-h-[92svh] flex-col border-b border-line">
+        <Container className="flex flex-1 flex-col items-center justify-center py-20 text-center">
+          <Rise>
+            <Micro className="text-acc">Est. 2026 · By introduction only</Micro>
+          </Rise>
+          <Rise index={1}>
+            <h1 className="display mt-8 text-[clamp(4.5rem,16vw,12rem)]">
+              Privet
+            </h1>
+          </Rise>
+          <Rise index={2}>
+            <div className="rule-double mt-7 w-[min(26rem,74vw)]" />
+          </Rise>
+          <Rise index={3}>
+            <p className="mt-10 max-w-[17ch] font-serif text-[clamp(2rem,4.6vw,3.25rem)] italic leading-[1.22] text-ink2">
+              A daily paper of the people you actually know.
+            </p>
+          </Rise>
+          <Rise index={4}>
+            <p className="mt-11 max-w-[44ch] text-[1.0625rem] leading-[1.7] text-sub">
+              Invite-only, iOS, free at launch. Your friends&rsquo; day arrives
+              once as one issue — you read it to the end, and then it&rsquo;s
+              done.
+            </p>
+          </Rise>
+        </Container>
+        <Container className="pb-12">
+          <Rise index={5}>
+            <div className="flex items-center justify-center gap-3">
+              <span className="dash" />
+              <Micro className="text-faint">Someone has to let you in</Micro>
             </div>
-            <Rise index={2}>
-              <Shot
-                name="cover"
-                alt="Today's cover: the issue has arrived"
-                priority
-              />
-            </Rise>
-          </div>
+          </Rise>
         </Container>
       </section>
 
