@@ -150,6 +150,14 @@ body {
   --pin-lo: #8d8069;
   --card-paper: #fefdfb;
   --card-ink: #3a332c;
+  --photo-dim: 0;
+  --glass-sheen: rgba(255, 255, 255, 0.1);
+  --wood-light: #b08d62;
+  --wood-dark: #7d5f3d;
+  --sticky: #f8e9a0;
+  --frame-stroke: rgba(0, 0, 0, 0.22);
+  --string: #9c8f7a;
+  --wire: #5b5244;
 }
 :root[data-theme="amoled"] {
   --glow: rgba(255, 201, 141, 0.06);
@@ -159,6 +167,14 @@ body {
   --pin-lo: #5c5346;
   --card-paper: #2c2620;
   --card-ink: #e6dccb;
+  --photo-dim: 0.24;
+  --glass-sheen: rgba(255, 255, 255, 0.05);
+  --wood-light: #755a3b;
+  --wood-dark: #4c3826;
+  --sticky: #c9b671;
+  --frame-stroke: rgba(0, 0, 0, 0.5);
+  --string: #6e6152;
+  --wire: #121009;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="paper"]) {
@@ -169,6 +185,14 @@ body {
     --pin-lo: #5c5346;
     --card-paper: #2c2620;
     --card-ink: #e6dccb;
+    --photo-dim: 0.24;
+    --glass-sheen: rgba(255, 255, 255, 0.05);
+    --wood-light: #755a3b;
+    --wood-dark: #4c3826;
+    --sticky: #c9b671;
+    --frame-stroke: rgba(0, 0, 0, 0.5);
+    --string: #6e6152;
+    --wire: #121009;
   }
 }
 
@@ -275,5 +299,124 @@ body {
   .js .struck.hung {
     background-size: 100% 2px;
     transition: none;
+  }
+}
+
+/* ── The wall stage ──────────────────────────────────────────────────────── */
+
+:root {
+  --vinyl-sheen-a: rgba(255, 255, 255, 0.16);
+  --vinyl-sheen-b: rgba(255, 255, 255, 0.11);
+  --bulb-halo: 0;
+}
+:root[data-theme="amoled"] {
+  --vinyl-sheen-a: rgba(255, 255, 255, 0.1);
+  --vinyl-sheen-b: rgba(255, 255, 255, 0.07);
+  --bulb-halo: 1;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="paper"]) {
+    --vinyl-sheen-a: rgba(255, 255, 255, 0.1);
+    --vinyl-sheen-b: rgba(255, 255, 255, 0.07);
+    --bulb-halo: 1;
+  }
+}
+
+/* At night the bulbs glow and gently twinkle; by day they are just glass. */
+.bulb-halo {
+  opacity: var(--bulb-halo);
+}
+:root[data-theme="amoled"] .bulb,
+:root:not([data-theme="paper"]) .bulb {
+  animation: twinkle 2.9s ease-in-out infinite;
+  animation-delay: var(--twinkle-delay, 0s);
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="amoled"]) .bulb {
+    animation: none;
+  }
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0.66; }
+  50% { opacity: 1; }
+}
+
+/* Every piece is hand-placed: a rotation, a depth for the parallax, and a
+   lift when the pointer is on it — the app raises a piece before it comes
+   off the wall. */
+.piece {
+  position: absolute;
+  transform: translate3d(
+      calc(var(--px, 0) * var(--depth, 0) * 1px),
+      calc(var(--py, 0) * var(--depth, 0) * 1px),
+      0
+    )
+    rotate(var(--tilt, 0deg));
+  transition: filter 0.35s ease;
+  will-change: transform;
+}
+
+.piece-lift {
+  transition:
+    transform 0.32s cubic-bezier(0.2, 0.9, 0.3, 1.2),
+    filter 0.32s ease;
+}
+.piece-lift:hover {
+  transform: scale(1.045);
+  filter: drop-shadow(0 14px 18px var(--node-shadow));
+  cursor: pointer;
+  z-index: 30;
+}
+
+.stage {
+  transform-origin: top center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .piece {
+    transform: rotate(var(--tilt, 0deg));
+  }
+  .bulb {
+    animation: none !important;
+  }
+}
+
+/* ── Looking at one piece ────────────────────────────────────────────────── */
+
+/* The room with the lights down and the focus pulled off it — the same
+   treatment the scan screen gives the camera. */
+.viewer-scrim {
+  background: color-mix(in srgb, var(--bg) 95%, transparent);
+  backdrop-filter: blur(14px) saturate(0.7);
+  -webkit-backdrop-filter: blur(14px) saturate(0.7);
+}
+.viewer-scrim::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 50% 46%,
+    color-mix(in srgb, var(--node-shadow) 40%, transparent) 0%,
+    transparent 62%
+  );
+}
+.viewer {
+  animation: viewer-in 0.28s ease-out both;
+}
+.viewer-piece {
+  animation: piece-in 0.36s cubic-bezier(0.2, 0.9, 0.3, 1.15) both;
+}
+@keyframes viewer-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes piece-in {
+  from { opacity: 0; transform: scale(0.86); }
+  to { opacity: 1; transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .viewer,
+  .viewer-piece {
+    animation: none;
   }
 }

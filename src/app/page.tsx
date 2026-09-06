@@ -1,5 +1,7 @@
 import { Hung, Struck } from "@/components/hung";
-import { OnANail, QrMark, Seal, Vinyl } from "@/components/objects";
+import { OnANail, QrMark } from "@/components/objects";
+import { Vinyl } from "@/components/wall/pieces";
+import { WallStage } from "@/components/wall/stage";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 /** Uppercase, wide-tracked micro-label — the workhorse of the whole aesthetic. */
@@ -76,21 +78,14 @@ const ASKEW = ["askew-a", "askew-b", "askew-c"];
 export default function Home() {
   return (
     <div className="wall">
-      <main className="mx-auto max-w-[38rem] px-7 pb-20 pt-14">
-        {/* Masthead — the seal hung above its own name */}
+      {/* The room itself */}
+      <WallStage />
+
+      <main className="mx-auto max-w-[38rem] px-7 pb-20 pt-4">
+        {/* The tagline, under the room */}
         <header className="text-center">
           <Hung>
-            <OnANail>
-              <Seal />
-            </OnANail>
-          </Hung>
-          <Hung index={1}>
-            <Micro className="mt-7 text-faint">Invite only · iOS first</Micro>
-            <h1 className="mt-4 font-serif text-[64px] leading-[0.95] tracking-[-0.01em]">
-              Privet
-            </h1>
-            <div className="rule-double mt-5" />
-            <p className="mt-6 font-serif text-[22px] italic leading-[1.45] text-it">
+            <p className="font-serif text-[22px] italic leading-[1.45] text-it">
               A calm, invite-only social app where you only see people you’ve
               actually met — built for connection, not performance.
             </p>
@@ -156,7 +151,7 @@ export default function Home() {
             cheapest way to say "a wall holds more than photographs". */}
         <div className="mt-24 flex items-start gap-7">
           <Hung className="shrink-0 pt-2">
-            <Vinyl />
+            <Vinyl diameter={104} labelText="both ways" />
           </Hung>
           <Hung index={1}>
             <figure className="flex gap-4">
