@@ -216,7 +216,10 @@ body {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 14px;
+  /* Matched to the tab bar inside: that pill is 62pt tall, so its curve is a
+     31pt radius, and at the size these render (356px standing for 402pt) that
+     lands at about 27px. */
+  border-radius: 27px;
   box-shadow:
     0 44px 90px -24px rgba(0, 0, 0, 0.42),
     0 0 0 1px color-mix(in srgb, var(--ink) 10%, transparent);
@@ -316,5 +319,67 @@ body,
   .js .rise.shown .dash {
     transform: none;
     transition: none;
+  }
+}
+
+/* ── Two ends of one wall ────────────────────────────────────────────────
+   A section arguing that a wall is not a grid should not set its own
+   evidence in a grid. The two screens are hung instead: one high, one
+   dropped below it and overlapping a little, each a hair off square.
+
+   The tilt lives on an inner element on purpose — Rise animates `transform`
+   on the element it wraps, and would flatten any angle set there. */
+.wall-pair {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-bottom: 7rem;
+}
+.wall-pair .stand {
+  max-width: 318px;
+  margin-inline: 0;
+}
+.hung-a {
+  transform: rotate(-1.8deg);
+  position: relative;
+  z-index: 1;
+}
+.hung-b {
+  transform: translateY(7rem) rotate(1.4deg);
+  position: relative;
+  z-index: 2;
+  margin-left: -1.75rem;
+}
+.wall-pair .shot {
+  box-shadow:
+    0 52px 100px -26px rgba(0, 0, 0, 0.5),
+    0 0 0 1px color-mix(in srgb, var(--ink) 10%, transparent);
+}
+/* the scroll drift would fight the hanging angles */
+.wall-pair .stand {
+  animation: none;
+}
+
+/* Stacked on a phone: still hung, never aligned. */
+@media (max-width: 760px) {
+  .wall-pair {
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+    padding-bottom: 0;
+  }
+  .hung-a {
+    transform: rotate(-1.4deg);
+  }
+  .hung-b {
+    transform: rotate(1.5deg);
+    margin-left: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hung-b {
+    transform: translateY(7rem);
   }
 }

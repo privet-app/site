@@ -97,7 +97,7 @@ const NEXT = [
   {
     when: "Later",
     title: "A subscription, once it’s earned",
-    body: "Free until the network is indispensable. Pricing follows value, it doesn’t precede it — and it’s a subscription rather than ads, because the business model should be you.",
+    body: "Free until we earn your trust. Pricing follows value, it doesn’t precede it — and it’s a subscription rather than ads, because the business model should be you.",
   },
 ];
 
@@ -125,8 +125,9 @@ export default function Home() {
           </Rise>
           <Rise index={4}>
             <p className="mt-11 max-w-[44ch] text-[1.0625rem] leading-[1.7] text-sub">
-              Invite-only, iOS, free at launch. Your people post and you see
-              it — and when you reach the end, that is everything there is.
+              Invite-only, iOS, and free until we earn your trust. Your people
+              post and you see it — and when you reach the end, that is
+              everything there is.
             </p>
           </Rise>
         </Container>
@@ -150,11 +151,7 @@ export default function Home() {
 
       <TabSection
         kicker="Admittance"
-        title={
-          <>
-            You both have to be in the room.
-          </>
-        }
+        title={<>You both have to be in the room.</>}
         body="The only way to become friends is to stand in front of someone and trade passes. No requests, no search, no suggestions, no strangers — and no window in for anyone famous either. The walls go both ways."
         note="Both of you have to be there. That’s the point."
         screen={<Shot name="connect" alt="A member pass, with its code" />}
@@ -166,7 +163,9 @@ export default function Home() {
         title={<>Ordered by warmth, not by unread.</>}
         body="Messages are voice notes, calls and text — nothing else. People sit in the order of how close you actually are, not of what you haven’t opened, and a friendship going cold is a quiet line of type rather than a red dot."
         note="No read receipts · no typing dots · no last seen"
-        screen={<Shot name="hallway" alt="The hallway, doors ordered by warmth" />}
+        screen={
+          <Shot name="hallway" alt="The hallway, doors ordered by warmth" />
+        }
       />
 
       {/* The wall gets the whole width — one screen cannot hold it */}
@@ -198,26 +197,32 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="mt-16 grid gap-10 sm:mt-20 sm:grid-cols-2 sm:gap-12">
+          <div className="wall-pair mt-16 sm:mt-20">
             <Rise>
-              <Shot
-                name="wall-top"
-                alt="The top of a wall: polaroids on a light string, a record, framed photographs"
-              />
-              <Micro className="mt-6 text-center text-faint">
-                Hung by hand, never on a grid
-              </Micro>
+              <div className="hung-a">
+                <Shot
+                  name="wall-top"
+                  alt="The top of a wall: polaroids on a light string, a record, framed photographs"
+                />
+              </div>
             </Rise>
             <Rise index={1}>
-              <Shot
-                name="wall-media"
-                alt="The other end of the wall: film posters, books, a film strip, a cassette"
-              />
-              <Micro className="mt-6 text-center text-faint">
-                The films, the books, the closet
-              </Micro>
+              <div className="hung-b">
+                <Shot
+                  name="wall-media"
+                  alt="The far end of the wall: film posters, books, a film strip, a cassette"
+                />
+              </div>
             </Rise>
           </div>
+          <Rise>
+            <div className="mt-12 flex items-center justify-center gap-3 sm:mt-4">
+              <span className="dash" />
+              <Micro className="text-faint">
+                Two ends of one wall · nothing on a grid
+              </Micro>
+            </div>
+          </Rise>
         </Container>
       </section>
 
