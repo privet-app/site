@@ -3,7 +3,7 @@
  * markup reads plainly, which means a browser will happily keep serving the
  * previous capture from cache — this is what makes it fetch the new one.
  */
-const CAPTURE = "3";
+const CAPTURE = "4";
 
 /**
  * A screen, as it actually runs. Captured from the app in the simulator once
