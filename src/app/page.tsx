@@ -120,8 +120,8 @@ export default function Home() {
           </Rise>
           <Rise index={4}>
             <p className="mt-11 max-w-[44ch] text-[1.0625rem] leading-[1.7] text-sub">
-              Invite-only, iOS, free until we earn your trust. Reach the end and
-              you put down the phone and go see someone.
+              Invite-only, iOS, free until we earn your trust. Your feed ends
+              — you finish it, put down the phone and go see someone.
             </p>
           </Rise>
         </Container>
