@@ -96,3 +96,184 @@ body {
   text-transform: uppercase;
   margin-right: -2.2px;
 }
+
+/* ── The wall ──────────────────────────────────────────────────────────────
+   "The wall is the app background itself — same paper, same night."
+   Plaster tooth, one soft pool of light from the upper left, a baseboard at
+   the very bottom of the room. */
+
+.wall {
+  position: relative;
+  isolation: isolate;
+}
+
+/* Plaster speckle. Neutral by day so the white stays white; a faint lift at
+   night. Drawn, not shipped — it is fractal noise, not an asset. */
+.wall::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/></filter><rect width='180' height='180' filter='url(%23n)'/></svg>");
+}
+
+:root[data-theme="amoled"] .wall::before {
+  opacity: 0.028;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="paper"]) .wall::before {
+    opacity: 0.028;
+  }
+}
+
+/* Daylight, or the one lamp. */
+.wall::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    120% 90% at 38% 24%,
+    var(--glow) 0%,
+    transparent 70%
+  );
+}
+
+:root {
+  --glow: rgba(255, 255, 255, 0);
+  --node-shadow: rgba(0, 0, 0, 0.22);
+  --paper-white: #ffffff;
+  --pin-hi: #c4b69c;
+  --pin-lo: #8d8069;
+  --card-paper: #fefdfb;
+  --card-ink: #3a332c;
+}
+:root[data-theme="amoled"] {
+  --glow: rgba(255, 201, 141, 0.06);
+  --node-shadow: rgba(0, 0, 0, 0.7);
+  --paper-white: #cfc5b3;
+  --pin-hi: #9c8f7b;
+  --pin-lo: #5c5346;
+  --card-paper: #2c2620;
+  --card-ink: #e6dccb;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="paper"]) {
+    --glow: rgba(255, 201, 141, 0.06);
+    --node-shadow: rgba(0, 0, 0, 0.7);
+    --paper-white: #cfc5b3;
+    --pin-hi: #9c8f7b;
+    --pin-lo: #5c5346;
+    --card-paper: #2c2620;
+    --card-ink: #e6dccb;
+  }
+}
+
+/* The baseboard, and the hint of floor under it. */
+.baseboard {
+  height: 2px;
+  background: color-mix(in srgb, var(--ink) 12%, transparent);
+}
+
+/* ── Objects ─────────────────────────────────────────────────────────────── */
+
+/* The pin, its thread, and the card that hangs off it. */
+.pin {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 34% 28%,
+    var(--pin-hi) 0%,
+    var(--pin-lo) 100%
+  );
+  box-shadow: 0 1.5px 2px var(--node-shadow);
+}
+
+.thread {
+  width: 1px;
+  height: 16px;
+  background: color-mix(in srgb, var(--card-ink) 26%, transparent);
+}
+
+.card {
+  background: var(--card-paper);
+  border: 1px solid color-mix(in srgb, var(--card-ink) 16%, transparent);
+  box-shadow: 0 5px 7px var(--node-shadow);
+}
+
+/* A photo plate: the image inside a 7px-padded card with a hairline border. */
+.plate {
+  background: var(--paper-white);
+  padding: 7px;
+  border: 1px solid var(--plate);
+  box-shadow: var(--shadow);
+}
+
+/* ── Hanging ─────────────────────────────────────────────────────────────
+   Nothing fades up. Things come off a nail and settle: down 14px, five
+   degrees off square, then true. One after another, so a bare wall fills
+   instead of presenting a list. */
+
+/* Everything is on the wall to begin with. Only once we know there is a
+   script to hang it do we take it down and let it settle back — so the page
+   without JavaScript is a finished page, not an empty one. */
+.hang {
+  transform-origin: top center;
+}
+
+.js .hang {
+  opacity: 0;
+  transform: translateY(-14px) rotate(-5deg);
+}
+
+.js .hang.hung {
+  opacity: 1;
+  transform: translateY(0) rotate(var(--rest, 0deg));
+  transition:
+    opacity 0.42s ease-out var(--delay, 0s),
+    transform 0.62s cubic-bezier(0.22, 1.1, 0.36, 1) var(--delay, 0s);
+}
+
+/* The house hangs everything a hair off square. */
+.askew-a { --rest: -1.1deg; }
+.askew-b { --rest: 0.8deg; }
+.askew-c { --rest: -0.6deg; }
+
+/* The splash's one gesture: a 2px maroon line drawn through a word we mean
+   to refuse. */
+.struck {
+  display: inline;
+  background-image: linear-gradient(var(--acc), var(--acc));
+  background-repeat: no-repeat;
+  background-position: 0 0.62em;
+  background-size: 100% 2px;
+}
+
+.js .struck {
+  background-size: 0% 2px;
+}
+
+.js .struck.hung {
+  background-size: 100% 2px;
+  transition: background-size 0.5s cubic-bezier(0.45, 0.05, 0.15, 1)
+    var(--delay, 0s);
+}
+
+/* Calm over capture: if the reader would rather nothing moved, nothing does. */
+@media (prefers-reduced-motion: reduce) {
+  .js .hang,
+  .js .hang.hung {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .js .struck,
+  .js .struck.hung {
+    background-size: 100% 2px;
+    transition: none;
+  }
+}

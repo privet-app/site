@@ -20,8 +20,11 @@ export const metadata: Metadata = {
     "A calm, invite-only social app where you only see people you've actually met — built for connection, not performance.",
 };
 
-// Set the palette before first paint so the page never flashes the wrong one.
-const themeScript = `
+// Set the palette before first paint so the page never flashes the wrong one,
+// and mark that there is a script here at all — the wall only takes its
+// pieces down if something is going to hang them back up.
+const bootScript = `
+document.documentElement.classList.add("js");
 try {
   var t = localStorage.getItem("privet-theme");
   if (t) document.documentElement.setAttribute("data-theme", t);
@@ -36,7 +39,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
     >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <script dangerouslySetInnerHTML={{ __html: bootScript }} />
       </head>
       <body className="min-h-full bg-bg text-ink">{children}</body>
     </html>

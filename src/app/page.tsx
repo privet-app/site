@@ -1,3 +1,5 @@
+import { Hung, Struck } from "@/components/hung";
+import { OnANail, QrMark, Seal, Vinyl } from "@/components/objects";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 /** Uppercase, wide-tracked micro-label — the workhorse of the whole aesthetic. */
@@ -21,9 +23,11 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section className="mt-20">
-      <Micro className="text-acc">{kicker}</Micro>
-      <div className="rule-double mt-3 mb-7" />
+    <section className="mt-24">
+      <Hung>
+        <Micro className="text-acc">{kicker}</Micro>
+        <div className="rule-double mt-3 mb-8" />
+      </Hung>
       {children}
     </section>
   );
@@ -54,100 +58,186 @@ const FIRST_VERSION = [
   "Quiet reactions only — a private heart, a voice reply. No counts.",
 ];
 
-const BANNED =
-  "Notification badges · infinite scroll · autoplay · pull-to-refresh slot machine · like, follower and view counts · leaderboards · streak-pressure · growth nudges · guilt pings · any mechanic that rewards screen time.";
+const BANNED = [
+  "Notification badges",
+  "Infinite scroll",
+  "Autoplay",
+  "The pull-to-refresh slot machine",
+  "Like, follower and view counts",
+  "Leaderboards",
+  "Streak-pressure",
+  "Growth nudges",
+  "Guilt pings",
+  "Any mechanic that rewards screen time",
+];
+
+const ASKEW = ["askew-a", "askew-b", "askew-c"];
 
 export default function Home() {
   return (
-    <main className="mx-auto max-w-[36rem] px-7 pb-24 pt-16">
-      {/* Masthead */}
-      <header className="text-center">
-        <Micro>Invite only · iOS first</Micro>
-        <h1 className="mt-4 font-serif text-[64px] leading-[0.95] tracking-[-0.01em]">
-          Privet
-        </h1>
-        <div className="rule-double mt-5" />
-        <p className="mt-6 font-serif text-[22px] italic leading-[1.45] text-it">
-          A calm, invite-only social app where you only see people you&rsquo;ve
-          actually met &mdash; built for connection, not performance.
-        </p>
-      </header>
+    <div className="wall">
+      <main className="mx-auto max-w-[38rem] px-7 pb-20 pt-14">
+        {/* Masthead — the seal hung above its own name */}
+        <header className="text-center">
+          <Hung>
+            <OnANail>
+              <Seal />
+            </OnANail>
+          </Hung>
+          <Hung index={1}>
+            <Micro className="mt-7 text-faint">Invite only · iOS first</Micro>
+            <h1 className="mt-4 font-serif text-[64px] leading-[0.95] tracking-[-0.01em]">
+              Privet
+            </h1>
+            <div className="rule-double mt-5" />
+            <p className="mt-6 font-serif text-[22px] italic leading-[1.45] text-it">
+              A calm, invite-only social app where you only see people you’ve
+              actually met — built for connection, not performance.
+            </p>
+          </Hung>
 
-      <Section kicker="The problem">
-        <p className="font-serif text-[20px] leading-[1.5] text-ink2">
-          People are exhausted by algorithmic, influencer-driven,
-          performance-obsessed social media. They want to stay close to the
-          people they actually know without the FOMO, trends, ads, and
-          overstimulation. There is no quiet, friends-only place left.
-        </p>
-      </Section>
+          {/* The splash's one gesture, at the splash's own pace: each refusal
+              struck through in maroon, then the thing that is left. */}
+          <div className="mt-10 font-serif text-[32px] leading-[1.4]">
+            <p>
+              <Struck index={7}>No filters.</Struck>
+            </p>
+            <p>
+              <Struck index={15}>No trends.</Struck>
+            </p>
+            <Hung index={13}>
+              <p className="italic text-acc">Only friends.</p>
+            </Hung>
+          </div>
+        </header>
 
-      <Section kicker="Non-negotiable">
-        <ol className="space-y-6">
-          {PRINCIPLES.map(([title, body], i) => (
-            <li key={title} className="flex gap-4">
-              <span className="micro mt-[7px] shrink-0 text-faint tabular-nums">
-                {String(i + 1).padStart(2, "0")}
+        <Section kicker="The problem">
+          <Hung>
+            <p className="font-serif text-[20px] leading-[1.5] text-ink2">
+              People are exhausted by algorithmic, influencer-driven,
+              performance-obsessed social media. They want to stay close to the
+              people they actually know without the FOMO, trends, ads, and
+              overstimulation. There is no quiet, friends-only place left.
+            </p>
+          </Hung>
+        </Section>
+
+        {/* Six nails, six answers */}
+        <Section kicker="Non-negotiable">
+          <ul className="grid gap-x-6 gap-y-10 sm:grid-cols-2">
+            {PRINCIPLES.map(([title, body], i) => (
+              <li key={title}>
+                <Hung index={i} className={ASKEW[i % ASKEW.length]}>
+                  <OnANail>
+                    <div className="card w-full px-5 py-4">
+                      <h2 className="font-serif text-[23px] leading-tight">
+                        {title}
+                      </h2>
+                      <div
+                        className="my-3 h-px"
+                        style={{
+                          background:
+                            "color-mix(in srgb, var(--card-ink) 14%, transparent)",
+                        }}
+                      />
+                      <p className="text-[14.5px] leading-[1.5] text-sub">
+                        {body}
+                      </p>
+                    </div>
+                  </OnANail>
+                </Hung>
+              </li>
+            ))}
+          </ul>
+        </Section>
+
+        {/* The one sanctioned ornament: an opening quote mark, set at display
+            size, for a line somebody wrote. The record beside it is the
+            cheapest way to say "a wall holds more than photographs". */}
+        <div className="mt-24 flex items-start gap-7">
+          <Hung className="shrink-0 pt-2">
+            <Vinyl />
+          </Hung>
+          <Hung index={1}>
+            <figure className="flex gap-4">
+              <span
+                aria-hidden
+                className="font-serif text-[56px] leading-[0.8] text-acc"
+              >
+                “
               </span>
-              <div>
-                <h2 className="font-serif text-[24px] leading-tight">{title}</h2>
-                <p className="mt-1 text-[15px] leading-[1.5] text-sub">{body}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </Section>
-
-      {/* The one sanctioned ornament: an opening quote mark, set at display
-          size, for a line somebody wrote. */}
-      <figure className="mt-20 flex gap-4">
-        <span
-          aria-hidden
-          className="font-serif text-[56px] leading-[0.8] text-acc"
-        >
-          &ldquo;
-        </span>
-        <blockquote className="font-serif text-[26px] leading-[1.35] text-ink2">
-          The walls go both ways. Fame doesn&rsquo;t get you a window in.
-        </blockquote>
-      </figure>
-
-      <Section kicker="The first version">
-        <ul className="space-y-3">
-          {FIRST_VERSION.map((item) => (
-            <li
-              key={item}
-              className="border-b border-line pb-3 text-[15px] leading-[1.5] text-sub last:border-0"
-            >
-              {item}
-            </li>
-          ))}
-        </ul>
-      </Section>
-
-      <Section kicker="Banned patterns">
-        <p className="font-serif text-[20px] leading-[1.55] text-ink2">
-          {BANNED}
-        </p>
-      </Section>
-
-      <Section kicker="Price">
-        <p className="font-serif text-[24px] leading-[1.4]">Free at launch.</p>
-        <p className="mt-2 text-[15px] leading-[1.5] text-sub">
-          A subscription later. Pricing follows value, not precedes it &mdash;
-          free until the network is indispensable.
-        </p>
-      </Section>
-
-      <footer className="mt-24">
-        <div className="rule-double mb-6" />
-        <div className="flex items-baseline justify-between gap-6">
-          <p className="font-serif text-[19px] italic text-it">
-            No filters, no trends, only friends.
-          </p>
-          <ThemeToggle />
+              <blockquote className="font-serif text-[26px] leading-[1.35] text-ink2">
+                The walls go both ways. Fame doesn’t get you a window in.
+              </blockquote>
+            </figure>
+          </Hung>
         </div>
-      </footer>
-    </main>
+
+        <Section kicker="The first version">
+          <Hung className="askew-c">
+            <div className="plate">
+              <ul className="bg-card px-6 py-2">
+                {FIRST_VERSION.map((item) => (
+                  <li
+                    key={item}
+                    className="border-b border-line py-3.5 text-[15px] leading-[1.5] text-sub last:border-0"
+                  >
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Hung>
+        </Section>
+
+        <Section kicker="Banned patterns">
+          <ul className="columns-1 gap-x-8 sm:columns-2">
+            {BANNED.map((item, i) => (
+              <li
+                key={item}
+                className="mb-2.5 break-inside-avoid font-serif text-[19px] leading-[1.5] text-ink2"
+              >
+                <Struck index={i}>{item}</Struck>
+              </li>
+            ))}
+          </ul>
+        </Section>
+
+        <Section kicker="Price">
+          <div className="flex flex-wrap items-center justify-between gap-8">
+            <Hung>
+              <p className="font-serif text-[30px] leading-[1.2]">
+                Free at launch.
+              </p>
+              <p className="mt-2 max-w-[22rem] text-[15px] leading-[1.5] text-sub">
+                A subscription later. Pricing follows value, not precedes it —
+                free until the network is indispensable.
+              </p>
+            </Hung>
+            <Hung index={1} className="askew-b">
+              <div className="plate">
+                <div className="grid place-items-center bg-card p-5">
+                  <QrMark />
+                  <p className="micro mt-4 text-faint">In person, or not at all</p>
+                </div>
+              </div>
+            </Hung>
+          </div>
+        </Section>
+
+        <footer className="mt-28">
+          <div className="rule-double mb-6" />
+          <div className="flex items-baseline justify-between gap-6">
+            <p className="font-serif text-[19px] italic text-it">
+              There are no strangers here.
+            </p>
+            <ThemeToggle />
+          </div>
+        </footer>
+      </main>
+
+      {/* the bottom of the room */}
+      <div className="baseboard" />
+    </div>
   );
 }
