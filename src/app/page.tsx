@@ -125,9 +125,8 @@ export default function Home() {
           </Rise>
           <Rise index={4}>
             <p className="mt-11 max-w-[44ch] text-[1.0625rem] leading-[1.7] text-sub">
-              Invite-only, iOS, free at launch. Your friends&rsquo; day arrives
-              once as one issue — you read it to the end, and then it&rsquo;s
-              done.
+              Invite-only, iOS, free at launch. Your people post and you see
+              it — and when you reach the end, that is everything there is.
             </p>
           </Rise>
         </Container>
@@ -170,14 +169,57 @@ export default function Home() {
         screen={<Shot name="hallway" alt="The hallway, doors ordered by warmth" />}
       />
 
-      <TabSection
-        kicker="The wall"
-        title={<>A wall, not a grid.</>}
-        body="Your profile is a room you decorate — framed photographs, the plate by your door, a line pinned to the plaster. It’s built to read like a person on day one, not like a feed of everything you’ve ever posted."
-        note="Walls never start empty."
-        screen={<Shot name="wall" alt="A decorated wall: framed photographs and the plate by the door" />}
-        flip
-      />
+      {/* The wall gets the whole width — one screen cannot hold it */}
+      <section className="border-t border-line py-20 sm:py-28">
+        <Container>
+          <div className="grid gap-5 md:grid-cols-[9rem_1fr] md:gap-12">
+            <Rise>
+              <Micro className="text-acc md:pt-3">The wall</Micro>
+            </Rise>
+            <div>
+              <Rise>
+                <h2 className="display text-[clamp(2.5rem,6vw,4.25rem)]">
+                  A wall, not a grid.
+                </h2>
+              </Rise>
+              <Rise index={1}>
+                <p className="mt-7 max-w-[52ch] text-[1.125rem] leading-[1.7] text-sub">
+                  Your profile is a room you decorate — framed photographs and
+                  the plate by your door, a record, a ticket stub, a line pinned
+                  to the plaster. It reads like a person on day one, and it
+                  keeps going: the things you love sit on the same wall as the
+                  people you love.
+                </p>
+                <div className="mt-8 flex items-center gap-3">
+                  <span className="dash" />
+                  <Micro className="text-faint">Walls never start empty</Micro>
+                </div>
+              </Rise>
+            </div>
+          </div>
+
+          <div className="mt-16 grid gap-10 sm:mt-20 sm:grid-cols-2 sm:gap-12">
+            <Rise>
+              <Shot
+                name="wall-top"
+                alt="The top of a wall: polaroids on a light string, a record, framed photographs"
+              />
+              <Micro className="mt-6 text-center text-faint">
+                Hung by hand, never on a grid
+              </Micro>
+            </Rise>
+            <Rise index={1}>
+              <Shot
+                name="wall-media"
+                alt="The other end of the wall: film posters, books, a film strip, a cassette"
+              />
+              <Micro className="mt-6 text-center text-faint">
+                The films, the books, the closet
+              </Micro>
+            </Rise>
+          </div>
+        </Container>
+      </section>
 
       {/* The one place the page raises its voice */}
       <section className="on-acc py-24 sm:py-32">
