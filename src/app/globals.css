@@ -17,6 +17,7 @@
   --line2: #e0e0e4;
   --acc: #7c2230;
   --acc-ink: #ffffff;
+  --acc-fill: #7c2230;
   --plate: #dedee3;
 }
 
@@ -33,6 +34,7 @@
     --line2: #26221c;
     --acc: #f04a2f;
     --acc-ink: #ffffff;
+    --acc-fill: #6d1d29;
     --plate: #26221c;
   }
 }
@@ -49,6 +51,7 @@
   --line2: #26221c;
   --acc: #f04a2f;
   --acc-ink: #ffffff;
+  --acc-fill: #6d1d29;
   --plate: #26221c;
 }
 
@@ -165,4 +168,38 @@ body {
     stroke-dashoffset: 0;
     transition: none;
   }
+}
+
+/* A section that inverts: maroon ground, its own type colour. Used once, for
+   the refusals — the only place the page raises its voice. */
+.on-acc {
+  background: var(--acc-fill);
+  color: var(--acc-ink);
+}
+.on-acc .micro,
+.on-acc .display {
+  color: var(--acc-ink);
+}
+.on-acc .rule-double {
+  border-color: color-mix(in srgb, var(--acc-ink) 34%, transparent);
+}
+/* the strike takes the ground's own ink, not the accent */
+.on-acc .struck {
+  background-image: linear-gradient(currentColor, currentColor);
+}
+
+/* A soft pool of light behind the device, so it sits in a room. */
+.lit {
+  position: relative;
+}
+.lit::before {
+  content: "";
+  position: absolute;
+  inset: -14% -10%;
+  z-index: -1;
+  background: radial-gradient(
+    58% 46% at 50% 42%,
+    color-mix(in srgb, var(--ink) 9%, transparent) 0%,
+    transparent 72%
+  );
 }
