@@ -14,7 +14,7 @@ export function Shot({
 }) {
   const common = {
     width: 644,
-    height: 1315,
+    height: 1240,
     draggable: false,
     loading: priority ? ("eager" as const) : ("lazy" as const),
   };

@@ -216,7 +216,7 @@ body {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 30px;
+  border-radius: 14px;
   box-shadow:
     0 44px 90px -24px rgba(0, 0, 0, 0.42),
     0 0 0 1px color-mix(in srgb, var(--ink) 10%, transparent);
