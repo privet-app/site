@@ -1,26 +1,98 @@
 @import "tailwindcss";
 
+/* Palettes lifted from the iOS app's Theme.swift.
+   PAPER is the page in daylight: pure white, neutral greys, nothing warm —
+   so the maroon is the only colour in the room.
+   AMOLED is the same page under one lamp: cream type, warm greys, pure black
+   ground. The accent has to change between them, not by preference: #7c2230
+   lands at ~2.1:1 on black, which is unreadable. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --bg: #ffffff;
+  --card: #ffffff;
+  --ink: #111113;
+  --ink2: #1b1b1e;
+  --it: #3c3c41;
+  --sub: #63636b;
+  --faint: #8e8e96;
+  --line: #ececef;
+  --line2: #e0e0e4;
+  --acc: #7c2230;
+  --acc-ink: #ffffff;
+  --plate: #dedee3;
+  --shadow: 0 16px 38px rgba(0, 0, 0, 0.16);
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  :root:not([data-theme="paper"]) {
+    --bg: #000000;
+    --card: #0f0d0b;
+    --ink: #f2e9d8;
+    --ink2: #ece2cf;
+    --it: #d6cab6;
+    --sub: #a3988a;
+    --faint: #7d7365;
+    --line: #1d1a16;
+    --line2: #26221c;
+    --acc: #f04a2f;
+    --acc-ink: #ffffff;
+    --plate: #26221c;
+    --shadow: 0 16px 38px rgba(0, 0, 0, 0.75);
   }
 }
 
+:root[data-theme="amoled"] {
+  --bg: #000000;
+  --card: #0f0d0b;
+  --ink: #f2e9d8;
+  --ink2: #ece2cf;
+  --it: #d6cab6;
+  --sub: #a3988a;
+  --faint: #7d7365;
+  --line: #1d1a16;
+  --line2: #26221c;
+  --acc: #f04a2f;
+  --acc-ink: #ffffff;
+  --plate: #26221c;
+  --shadow: 0 16px 38px rgba(0, 0, 0, 0.75);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
+  --color-ink2: var(--ink2);
+  --color-it: var(--it);
+  --color-sub: var(--sub);
+  --color-faint: var(--faint);
+  --color-line: var(--line);
+  --color-line2: var(--line2);
+  --color-acc: var(--acc);
+  --color-acc-ink: var(--acc-ink);
+  --color-plate: var(--plate);
+  --font-serif: var(--font-instrument-serif);
+  --font-sans: var(--font-hanken-grotesk);
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-hanken-grotesk), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* The section rule: a 4px-tall double hairline, as in the app. */
+.rule-double {
+  border-top: 1px solid var(--line2);
+  border-bottom: 1px solid var(--line2);
+  height: 4px;
+}
+
+/* Tracking also lands after the last glyph, which pushes a centred label off
+   centre. Taking it back off makes the optical edge the real edge. */
+.micro {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+  margin-right: -2.2px;
 }
