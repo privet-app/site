@@ -18,7 +18,6 @@
   --acc: #7c2230;
   --acc-ink: #ffffff;
   --acc-fill: #7c2230;
-  --mat: #ffffff;
   --plate: #dedee3;
 }
 
@@ -36,7 +35,6 @@
     --acc: #f04a2f;
     --acc-ink: #ffffff;
     --acc-fill: #6d1d29;
-    --mat: #cfc5b3;
     --plate: #26221c;
   }
 }
@@ -54,7 +52,6 @@
   --acc: #f04a2f;
   --acc-ink: #ffffff;
   --acc-fill: #6d1d29;
-  --mat: #cfc5b3;
   --plate: #26221c;
 }
 
@@ -76,6 +73,7 @@
 }
 
 body {
+  overflow-x: clip;
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font-hanken-grotesk), ui-sans-serif, system-ui, sans-serif;
@@ -116,14 +114,34 @@ body {
 }
 .js .rise {
   opacity: 0;
-  transform: translateY(14px);
+  transform: translateY(16px);
+  filter: blur(7px);
 }
 .js .rise.shown {
   opacity: 1;
   transform: none;
+  filter: blur(0);
   transition:
-    opacity 0.6s cubic-bezier(0.22, 0.61, 0.36, 1) var(--delay, 0s),
-    transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1) var(--delay, 0s);
+    opacity 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) var(--delay, 0s),
+    transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) var(--delay, 0s),
+    filter 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) var(--delay, 0s);
+}
+
+/* The short accent rule draws itself out from the margin. */
+.dash {
+  display: block;
+  height: 1px;
+  width: 2rem;
+  background: var(--acc);
+  transform-origin: left center;
+}
+.js .rise .dash {
+  transform: scaleX(0);
+}
+.js .rise.shown .dash {
+  transform: scaleX(1);
+  transition: transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1)
+    calc(var(--delay, 0s) + 0.3s);
 }
 
 /* A line drawn through something we mean to refuse. */
@@ -191,128 +209,112 @@ body {
   background-image: linear-gradient(currentColor, currentColor);
 }
 
-/* A soft pool of light behind the device, so it sits in a room. */
-.lit {
-  position: relative;
+/* ── Real screens ────────────────────────────────────────────────────────
+   Each screen was captured from the running app twice, once per palette.
+   The page shows whichever one matches the room it is being read in. */
+.shot {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 30px;
+  box-shadow:
+    0 44px 90px -24px rgba(0, 0, 0, 0.42),
+    0 0 0 1px color-mix(in srgb, var(--ink) 10%, transparent);
 }
-.lit::before {
+.shot-amoled {
+  display: none;
+}
+:root[data-theme="amoled"] .shot-paper {
+  display: none;
+}
+:root[data-theme="amoled"] .shot-amoled {
+  display: block;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="paper"]) .shot-paper {
+    display: none;
+  }
+  :root:not([data-theme="paper"]) .shot-amoled {
+    display: block;
+  }
+}
+
+/* The phone stands in its own pool of light. */
+.stand {
+  position: relative;
+  max-width: 330px;
+  margin-inline: auto;
+}
+.stand::before {
   content: "";
   position: absolute;
-  inset: -14% -10%;
+  inset: -12% -8% -8%;
   z-index: -1;
   background: radial-gradient(
-    58% 46% at 50% 42%,
-    color-mix(in srgb, var(--ink) 9%, transparent) 0%,
-    transparent 72%
+    56% 44% at 50% 46%,
+    color-mix(in srgb, var(--ink) 10%, transparent) 0%,
+    transparent 70%
   );
 }
 
-/* ── The app, rebuilt ────────────────────────────────────────────────────── */
 
-/* Every screen wears the same masthead rule. */
-.screen {
-  width: 390px;
-  height: 800px;
-  background: var(--bg);
-  position: relative;
-  overflow: hidden;
-  box-shadow:
-    0 40px 80px -20px rgba(0, 0, 0, 0.28),
-    0 0 0 1px var(--plate);
-}
+/* ── Scroll-driven drift ────────────────────────────────────────────────
+   A phone shifts a little as it passes through the window, so the page has
+   depth without anything jumping. Pure CSS on a view() timeline — no
+   scroll handler, no work on the main thread — and it simply does not
+   apply where the timeline isn't supported. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .stand {
+      animation: drift linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+    @keyframes drift {
+      from {
+        transform: translateY(26px);
+      }
+      to {
+        transform: translateY(-26px);
+      }
+    }
 
-/* The floating tab bar: a glass pill that sits over the page, not under it. */
-.tabbar {
-  position: absolute;
-  left: 14px;
-  right: 14px;
-  bottom: 16px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.tabbar-pill {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  height: 62px;
-  padding: 0 6px;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--card) 78%, transparent);
-  backdrop-filter: blur(18px) saturate(1.4);
-  -webkit-backdrop-filter: blur(18px) saturate(1.4);
-  box-shadow:
-    0 8px 24px rgba(0, 0, 0, 0.14),
-    inset 0 0 0 1px color-mix(in srgb, var(--ink) 8%, transparent);
-}
-.tabbar-add {
-  display: grid;
-  place-items: center;
-  width: 62px;
-  height: 62px;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--card) 78%, transparent);
-  backdrop-filter: blur(18px) saturate(1.4);
-  -webkit-backdrop-filter: blur(18px) saturate(1.4);
-  box-shadow:
-    0 8px 24px rgba(0, 0, 0, 0.14),
-    inset 0 0 0 1px color-mix(in srgb, var(--ink) 8%, transparent);
-}
-.tab {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
-  padding: 0 10px;
-  height: 50px;
-  justify-content: center;
-  border-radius: 999px;
-  color: var(--sub);
-}
-.tab-on {
-  color: var(--acc);
-  background: color-mix(in srgb, var(--ink) 6%, transparent);
-}
-.tab-label {
-  font-size: 9.5px;
-  font-weight: 600;
-  letter-spacing: 0.4px;
-}
-
-/* A photograph in its plate. */
-.plate {
-  background: var(--card);
-  padding: 7px;
-  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.16);
-  outline: 1px solid var(--plate);
-}
-
-/* The maroon pill the app uses for the one action on a screen. */
-.pill {
-  display: grid;
-  place-items: center;
-  height: 52px;
-  border-radius: 999px;
-  background: var(--acc-fill);
-  color: var(--acc-ink);
-}
-
-/* The screens are drawn at their real size; small windows stand further back.
-   The wrapper carries the scaled box, because a transform moves pixels and
-   leaves the layout width where it was — which is an overflowing page. */
-.screen-fit {
-  width: 390px;
-  height: 800px;
-  max-width: 100%;
-}
-@media (max-width: 500px) {
-  .screen-fit {
-    width: 296px;
-    height: 607px;
+    /* The masthead settles as you leave it. */
+    .hero-settle {
+      animation: settle linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 100%;
+    }
+    @keyframes settle {
+      from {
+        opacity: 1;
+        transform: none;
+      }
+      to {
+        opacity: 0.25;
+        transform: translateY(-24px);
+      }
+    }
   }
-  .screen-fit > .screen {
-    transform: scale(0.759);
-    transform-origin: top left;
+}
+
+/* Changing the palette is a change of light, not a cut. */
+body,
+.shot,
+.on-acc {
+  transition:
+    background-color 0.45s ease,
+    color 0.45s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .rise,
+  .js .rise.shown {
+    filter: none;
+  }
+  .js .rise .dash,
+  .js .rise.shown .dash {
+    transform: none;
+    transition: none;
   }
 }
