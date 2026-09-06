@@ -18,6 +18,10 @@
   --acc: #7c2230;
   --acc-ink: #ffffff;
   --acc-fill: #7c2230;
+  --shot-bezel: color-mix(in srgb, var(--ink) 9%, var(--bg));
+  --shot-ring: color-mix(in srgb, var(--ink) 16%, transparent);
+  --shot-lift: 0 44px 90px -24px rgba(0, 0, 0, 0.42);
+  --shot-halo: transparent;
   --plate: #dedee3;
 }
 
@@ -35,6 +39,10 @@
     --acc: #f04a2f;
     --acc-ink: #ffffff;
     --acc-fill: #6d1d29;
+    --shot-bezel: color-mix(in srgb, var(--ink) 15%, var(--bg));
+    --shot-ring: color-mix(in srgb, var(--ink) 40%, transparent);
+    --shot-lift: 0 44px 90px -24px rgba(0, 0, 0, 0.95);
+    --shot-halo: color-mix(in srgb, var(--ink) 12%, transparent);
     --plate: #26221c;
   }
 }
@@ -52,6 +60,10 @@
   --acc: #f04a2f;
   --acc-ink: #ffffff;
   --acc-fill: #6d1d29;
+  --shot-bezel: color-mix(in srgb, var(--ink) 15%, var(--bg));
+  --shot-ring: color-mix(in srgb, var(--ink) 40%, transparent);
+  --shot-lift: 0 44px 90px -24px rgba(0, 0, 0, 0.95);
+  --shot-halo: color-mix(in srgb, var(--ink) 12%, transparent);
   --plate: #26221c;
 }
 
@@ -227,10 +239,6 @@ body {
      31pt radius, and at the size these render (356px standing for 402pt) that
      lands at about 27px. */
   border-radius: 27px;
-  box-shadow:
-    var(--shot-lift),
-    0 0 0 1px var(--shot-ring),
-    0 0 70px -10px var(--shot-halo);
 }
 .shot-amoled {
   display: none;
@@ -359,7 +367,7 @@ body,
   z-index: 2;
   margin-left: -1.75rem;
 }
-.wall-pair .shot {
+.wall-pair .shot-frame {
   box-shadow:
     var(--shot-lift),
     0 0 0 1px var(--shot-ring),
@@ -422,4 +430,18 @@ body,
     right: 0.7rem;
     padding: 0.5rem 0.8rem;
   }
+}
+
+
+/* A screen that is black on a page that is black has no edge of its own, so
+   the frame provides one: a hair of bezel a shade lighter than the ground,
+   a ring, and a lift. Both strengthen under the lamp. */
+.shot-frame {
+  padding: 5px;
+  border-radius: 32px;
+  background: var(--shot-bezel);
+  box-shadow:
+    var(--shot-lift),
+    0 0 0 1px var(--shot-ring),
+    0 0 70px -10px var(--shot-halo);
 }

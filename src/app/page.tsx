@@ -71,17 +71,15 @@ function TabSection({
 }
 
 const BANNED = [
-  "Notification badges",
+  "Ads",
+  "Reels",
+  "Influencers",
   "Infinite scroll",
-  "Autoplay",
-  "The pull-to-refresh slot machine",
-  "Like, follower and view counts",
+  "Like counts, follower counts, view counts",
   "Leaderboards",
-  "Streaks, of any kind",
-  "Growth nudges",
-  "Guilt pings",
-  "Ads, ever",
+  "Streak pressure",
 ];
+
 
 const NEXT = [
   {

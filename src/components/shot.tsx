@@ -27,21 +27,23 @@ export function Shot({
   };
   return (
     <div className="stand">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        {...common}
-        alt={alt}
-        src={`/screens/${name}-paper.jpg?v=${CAPTURE}`}
-        className="shot shot-paper"
-      />
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        {...common}
-        alt=""
-        aria-hidden
-        src={`/screens/${name}-amoled.jpg?v=${CAPTURE}`}
-        className="shot shot-amoled"
-      />
+      <div className="shot-frame">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          {...common}
+          alt={alt}
+          src={`/screens/${name}-paper.jpg?v=${CAPTURE}`}
+          className="shot shot-paper"
+        />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          {...common}
+          alt=""
+          aria-hidden
+          src={`/screens/${name}-amoled.jpg?v=${CAPTURE}`}
+          className="shot shot-amoled"
+        />
+      </div>
     </div>
   );
 }
