@@ -240,9 +240,9 @@ export default function Home() {
 
       <TabSection
         kicker="Admittance"
-        title={<>You both have to be in the room.</>}
-        body="Meet someone, trade passes. No requests, no search, no strangers — and no way in for anyone famous. The walls go both ways."
-        screen={<Shot name="connect" alt="A member pass, with its code" />}
+        title={<>Somebody has to hand you their key.</>}
+        body="Meet someone, trade keys. A key is handed over and then answered for — no requests, no search, no strangers, and no way in for anyone famous. The walls go both ways."
+        screen={<Shot name="connect" alt="A member's key" />}
       />
 
       <TabSection
@@ -314,7 +314,7 @@ export default function Home() {
             </h2>
             <p className="mx-auto mt-8 max-w-[46ch] text-[1.125rem] leading-[1.7] text-sub">
               No waitlist, no request button. Privet grows the way friendships
-              do — one person bringing another, in the same room.
+              do — one person bringing another, by hand.
             </p>
           </Rise>
         </Container>
