@@ -10,7 +10,7 @@ import Link from "next/link";
  * contact address that bounces is worse than none, both for Guideline 1.2 and
  * for the member who wrote to it.
  */
-export const SUPPORT_MAIL = "taufeeq.on@gmail.com";
+export const SUPPORT_MAIL = "io.taufeeq.ahmed@gmail.com";
 
 /** The address as a link, written the same way everywhere it appears. */
 export function Mail() {
