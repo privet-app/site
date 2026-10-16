@@ -1,6 +1,23 @@
 import Link from "next/link";
 
 /**
+ * The one address a person reads.
+ *
+ * Here rather than in each of the three pages, because it is also in
+ * `ios/release/metadata.yml` and `ios/Sources/ProfileViews.swift` and a fourth
+ * copy is the one that would be missed. Not on `privet.app`: that domain is
+ * registered to somebody else and parked, so mail to it goes nowhere — and a
+ * contact address that bounces is worse than none, both for Guideline 1.2 and
+ * for the member who wrote to it.
+ */
+export const SUPPORT_MAIL = "taufeeq.on@gmail.com";
+
+/** The address as a link, written the same way everywhere it appears. */
+export function Mail() {
+  return <a href={`mailto:${SUPPORT_MAIL}`}>{SUPPORT_MAIL}</a>;
+}
+
+/**
  * The plain pages: privacy, terms, support.
  *
  * One column of type on the same paper as the front page, with the same

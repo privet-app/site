@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { Head, Paper } from "@/components/paper";
+import { Head, Mail, Paper } from "@/components/paper";
 
 export const metadata: Metadata = {
   title: "Terms · Privet",
@@ -105,7 +105,7 @@ export default function TermsPage() {
 
       <Head>Asking us about it</Head>
       <p>
-        Write to <a href="mailto:support@privet.app">support@privet.app</a>. A
+        Write to <Mail />. A
         person reads it.
       </p>
     </Paper>

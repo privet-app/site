@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { Head, Paper } from "@/components/paper";
+import { Head, Mail, Paper } from "@/components/paper";
 
 export const metadata: Metadata = {
   title: "Privacy · Privet",
@@ -95,7 +95,7 @@ export default function PrivacyPage() {
       <Head>Asking us about it</Head>
       <p>
         Write to{" "}
-        <a href="mailto:support@privet.app">support@privet.app</a> and a person
+        <Mail /> and a person
         will answer. You can ask for a copy of what we hold, ask us to correct
         it, or ask us to delete it &mdash; though the fastest way to the last one
         is the button in the app, which does it immediately.

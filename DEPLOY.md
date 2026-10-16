@@ -11,33 +11,46 @@ address on `/support`.
 
 ## Vercel
 
+The site is live at **https://get-privet.vercel.app**, which is where the app
+and the App Store listing point. The steps below are how it got there and what
+would change if it ever moved.
+
 1. **vercel.com** → Add New → Project → import `privet-app/site`.
 2. Framework preset: **Next.js**. Build command, install command and output
    are in `vercel.json`; leave the fields alone and it reads them.
 3. Deploy. The first one lands on a `*.vercel.app` URL, which is enough to
    check every page renders.
-4. **Project → Settings → Domains** → add `privet.app` and `www.privet.app`.
-   Vercel prints the records to create.
-5. At the registrar, point the domain at them. Apex is an `A` record to
-   Vercel's address; `www` is a `CNAME` to `cname.vercel-dns.com`. Vercel
-   issues the certificate itself once the records resolve.
+4. The `*.vercel.app` URL is the address, and it is a real one: Apple takes
+   it for the privacy policy and support fields, and it has a certificate
+   without anybody doing anything.
 
-**Done when** `https://privet.app/privacy`, `/terms` and `/support` all answer
-200 from outside your machine. The gate asks exactly that:
+   `privet.app` is **not** ours. It is registered, delegated to DigitalOcean
+   nameservers, and has no A, CNAME, MX or TXT records on it — so it answers
+   nothing and cannot be pointed anywhere by us. Nothing in this repository
+   may name it; a privacy policy URL that does not answer is a submission App
+   Store Connect refuses outright.
+
+5. If the domain is ever acquired: **Project → Settings → Domains**, add the
+   apex and `www`, create the records Vercel prints, and then change the four
+   places below. The old URL keeps working, so nothing breaks in the interval.
+
+**Done when** `https://get-privet.vercel.app/privacy`, `/terms` and `/support`
+all answer 200 from outside your machine. The gate asks exactly that:
 
     ios $ python3 scripts/release-check.py pages
 
 ## What has to agree with it
 
-Three places name these URLs, and all three are already written for
-`privet.app`:
+Four places name these URLs:
 
 - `ios/release/metadata.yml` — the privacy policy and support URLs App Store
   Connect is given.
 - `ios/Sources/ProfileViews.swift` — the LEGAL rows in SETTINGS.
 - `ios/Sources/SignupViews.swift` — the two links under the sign-in button.
+- `ios/scripts/release-check.py` — the three the gate asks for.
+- `site/DEPLOY.md` — this file.
 
-If the domain ever changes, those change with it, and `release-check.py pages`
+If the address ever changes, those change with it, and `release-check.py pages`
 is what notices.
 
 ## Why not a subdirectory of the app's host
