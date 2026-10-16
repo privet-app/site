@@ -1,3 +1,4 @@
+import { LegalLinks } from "@/components/paper";
 import { Rise, Struck } from "@/components/reveal";
 import { Shot } from "@/components/shot";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -326,7 +327,10 @@ export default function Home() {
             <p className="font-serif text-[1.25rem] italic text-it">
               There are no strangers here.
             </p>
-            <Micro className="text-faint">Privet · Est. 2026</Micro>
+            <div className="flex flex-wrap items-baseline gap-x-8 gap-y-3">
+              <LegalLinks />
+              <Micro className="text-faint">Privet · Est. 2026</Micro>
+            </div>
           </div>
         </Container>
       </footer>
