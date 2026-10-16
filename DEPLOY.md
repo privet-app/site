@@ -16,8 +16,11 @@ and the App Store listing point. The steps below are how it got there and what
 would change if it ever moved.
 
 1. **vercel.com** → Add New → Project → import `privet-app/site`.
-2. Framework preset: **Next.js**. Build command, install command and output
-   are in `vercel.json`; leave the fields alone and it reads them.
+2. Framework preset: **Next.js**, detected. `vercel.json` carries the four
+   security headers and nothing else on purpose — pinning the build and
+   install commands there overrode what Vercel works out from
+   `pnpm-lock.yaml`, and the deploys after it was added stopped landing while
+   the one before it was still being served. Let Vercel infer the commands.
 3. Deploy. The first one lands on a `*.vercel.app` URL, which is enough to
    check every page renders.
 4. The `*.vercel.app` URL is the address, and it is a real one: Apple takes
