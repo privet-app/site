@@ -1,7 +1,10 @@
+import { Clip } from "@/components/clip";
+import { Hangings } from "@/components/hangings";
 import { LegalLinks } from "@/components/paper";
 import { Rise, Struck } from "@/components/reveal";
 import { Shot } from "@/components/shot";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { Wall } from "@/components/wall";
 
 function Micro({
   children,
@@ -65,6 +68,97 @@ function TabSection({
   );
 }
 
+/**
+ * The things a person says here, in the order the page shows them.
+ *
+ * A list rather than a block apiece, because there may be more of these to
+ * come: a new one is another entry here, with its cutting, and the section
+ * below gives it a place in the row.
+ *
+ * `name` is the app's own word for the thing — the room's tabs say ISSUES,
+ * MOVIES and BOOKS — so the page and the product call it the same.
+ * `clip` is the post cut out of the feed, and `height` is that file's own,
+ * since a post is as tall as what was said and no two are alike.
+ */
+const WAYS = [
+  {
+    name: "Issues",
+    title: <>Shower thoughts, with witnesses.</>,
+    body: "No occasion needed. You say it, and the people who know you answer underneath.",
+    clip: "thought",
+    height: 587,
+    alt: "A post that reads I should be the president of this country, with two friends answering underneath it",
+  },
+  {
+    name: "Movies",
+    title: <>Five stars, and a friend with notes.</>,
+    body: "Mark a film and say one line about it. Somebody who knows you will have something to say about both.",
+    clip: "review",
+    height: 813,
+    alt: "A review of La La Land marked five out of five that reads I feel like this movie is legit my camera roll, with a friend teasing her underneath it",
+  },
+  {
+    name: "Books",
+    title: <>A book you actually finished.</>,
+    body: "The same for what you read. Expect to be asked whether you really got to the end.",
+    clip: "book",
+    height: 836,
+    alt: "A review of Mother Mary Comes to Me by Arundhati Roy marked five out of five that reads I'm glad my mom gifted me this, with a friend asking underneath whether she really read the whole book",
+  },
+];
+
+/**
+ * What you say, as against what you hang.
+ *
+ * Every other section on the page is a column of words beside a phone. This
+ * one has no phones in it: each example is the post itself, cut out of the
+ * feed and laid down like a cutting on a desk, with a few words under it.
+ * The three are different heights because the posts are, and they are set a
+ * little out of line with each other so that reads as intended.
+ */
+function Expression() {
+  return (
+    <section className="border-t border-line py-20 sm:py-24">
+      <Container>
+        <Rise>
+          <Micro className="text-acc">Your own voice</Micro>
+          <h2 className="display mt-5 text-[clamp(2.75rem,7vw,5rem)]">
+            Say what you think.
+          </h2>
+          <p className="mt-6 max-w-[56ch] text-[1.125rem] leading-[1.7] text-sub">
+            The wall is what you hang. This is what you say: a passing
+            thought, what a film did to you, a book you got to the end of.
+            The people you have met read it, and some of them answer.
+          </p>
+        </Rise>
+
+        <Rise index={1}>
+          <div
+            className="says mt-12 sm:mt-14"
+            role="list"
+            style={{ "--count": WAYS.length } as React.CSSProperties}
+          >
+            {WAYS.map((way) => (
+              <div key={way.name} className="say" role="listitem">
+                <Clip name={way.clip} alt={way.alt} height={way.height} />
+                <div className="mt-6">
+                  <Micro className="text-faint">{way.name}</Micro>
+                  <h3 className="mt-3 font-serif text-[clamp(1.3rem,2.1vw,1.6rem)] leading-tight">
+                    {way.title}
+                  </h3>
+                  <p className="mt-3 max-w-[34ch] text-[1rem] leading-[1.65] text-sub">
+                    {way.body}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Rise>
+      </Container>
+    </section>
+  );
+}
+
 const BANNED = [
   "Ads",
   "Trackers",
@@ -123,7 +217,9 @@ export default function Home() {
           </Rise>
           <Rise index={4}>
             <p className="mt-11 max-w-[44ch] text-[1.0625rem] leading-[1.7] text-sub">
-              Invite-only, iOS, free until we earn your trust. Your feed ends
+              Invite-only, iOS, free{" "}
+              <mark className="marked">until we earn your trust</mark>. Your
+              feed ends
               — you finish it, put down the phone and go see someone.
             </p>
           </Rise>
@@ -175,23 +271,33 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="wall-pair mt-16 sm:mt-20">
-            <Rise>
-              <div className="hung-a">
-                <Shot
-                  name="wall-top"
-                  alt="The top of a wall: polaroids on a light string, a record, framed photographs"
-                />
-              </div>
-            </Rise>
-            <Rise index={1}>
-              <div className="hung-b">
-                <Shot
-                  name="wall-media"
-                  alt="The far end of the wall: film posters, books, a film strip, a cassette"
-                />
-              </div>
-            </Rise>
+          {/* The evidence. It is not wrapped in a Rise: these are the pictures
+              the section is about, so they are on the page from the start and
+              their movement belongs to the stylesheet. */}
+          <div className="mt-16 sm:mt-24">
+            <Wall />
+          </div>
+        </Container>
+      </section>
+
+      {/* The same wall at the scale of one thing. It follows the board
+          directly because it is the board's subject looked at closely, and
+          it comes before the refusals so the two halves of the wall are read
+          together. */}
+      <section className="border-t border-line py-20 sm:py-24">
+        <Container>
+          <Rise>
+            <Micro className="text-acc">On the wall</Micro>
+            <h2 className="display mt-5 text-[clamp(2.5rem,6vw,4.25rem)]">
+              The things themselves.
+            </h2>
+            <p className="mt-6 max-w-[52ch] text-[1.125rem] leading-[1.7] text-sub">
+              A piece is drawn as the thing it is. These are some of what can
+              go up.
+            </p>
+          </Rise>
+          <div className="mt-12 sm:mt-14">
+            <Hangings />
           </div>
         </Container>
       </section>
@@ -253,6 +359,8 @@ export default function Home() {
         screen={<Shot name="issue" alt="The feed, open on a phone" />}
         flip
       />
+
+      <Expression />
 
       <TabSection
         kicker="Correspondence"

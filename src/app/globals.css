@@ -23,6 +23,7 @@
   --shot-lift: 0 44px 90px -24px rgba(0, 0, 0, 0.42);
   --shot-halo: transparent;
   --plate: #dedee3;
+  --mark: color-mix(in srgb, var(--acc) 14%, transparent);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -44,6 +45,7 @@
     --shot-lift: 0 44px 90px -24px rgba(0, 0, 0, 0.95);
     --shot-halo: color-mix(in srgb, var(--ink) 12%, transparent);
     --plate: #26221c;
+    --mark: color-mix(in srgb, var(--acc) 24%, transparent);
   }
 }
 
@@ -65,6 +67,7 @@
   --shot-lift: 0 44px 90px -24px rgba(0, 0, 0, 0.95);
   --shot-halo: color-mix(in srgb, var(--ink) 12%, transparent);
   --plate: #26221c;
+  --mark: color-mix(in srgb, var(--acc) 24%, transparent);
 }
 
 @theme inline {
@@ -149,6 +152,20 @@ body {
   color: var(--acc);
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+/* A phrase marked the way a reader marks a line in a newspaper: a wash of
+   the accent behind it and the ink brought up to full, nothing else. The
+   wash is stronger under the lamp because the same tint on black all but
+   disappears. It breaks cleanly across a line end. */
+.marked {
+  background: var(--mark);
+  color: var(--ink2);
+  padding: 0.1em 0.3em;
+  margin: 0 -0.14em;
+  border-radius: 2px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
 /* A section rule: 4px of double hairline, as in the app. */
@@ -340,72 +357,270 @@ body,
   }
 }
 
-/* ── Two ends of one wall ────────────────────────────────────────────────
+/* ── One room, pinned up six times ────────────────────────────────────
    A section arguing that a wall is not a grid should not set its own
-   evidence in a grid. The two screens are hung instead: one high, one
-   dropped below it and overlapping a little, each a hair off square.
+   evidence in a grid, or in a row. The six screens are pinned to a board
+   instead, three to a row and no more: three sizes, each a degree or two off
+   square, overlapping where they meet.
 
-   The tilt lives on an inner element on purpose — Rise animates `transform`
-   on the element it wraps, and would flatten any angle set there. */
-.wall-pair {
+   The board is a box with a fixed shape and every screen is placed on it in
+   hundredths of its width, so the arrangement scales with the column and
+   never reflows into something tidier. */
+.scatter {
+  --board: 128;
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding-bottom: 7rem;
+  /* Its own stacking order, so a screen pinned high on the board cannot
+     climb over the appearance switch in the corner of the window. */
+  isolation: isolate;
+  aspect-ratio: 100 / var(--board);
 }
-.wall-pair .stand {
-  max-width: 318px;
-  margin-inline: 0;
+.pin {
+  position: absolute;
+  left: calc(var(--x) * 1%);
+  top: calc(var(--y) / var(--board) * 100%);
+  transform: rotate(var(--r));
+  z-index: var(--z);
+  /* The frame's corners are sized off the screen it holds, below. */
+  container-type: inline-size;
 }
-.hung-a {
-  transform: rotate(-1.8deg);
-  position: relative;
-  z-index: 1;
+.pin-near {
+  width: 32%;
+  --drift: 30px;
+  --lift: 0 38px 70px -26px;
 }
-.hung-b {
-  transform: translateY(7rem) rotate(1.4deg);
-  position: relative;
-  z-index: 2;
-  margin-left: -1.75rem;
+.pin-mid {
+  width: 28%;
+  --drift: 16px;
+  --lift: 0 22px 44px -20px;
 }
-.wall-pair .shot-frame {
-  box-shadow:
-    var(--shot-lift),
-    0 0 0 1px var(--shot-ring),
-    0 0 90px -12px var(--shot-halo);
+.pin-far {
+  width: 24%;
+  --drift: 5px;
+  --lift: 0 10px 22px -12px;
 }
-/* the scroll drift would fight the hanging angles */
-.wall-pair .stand {
+.scatter .stand {
+  max-width: none;
+  /* The scroll drift is replaced below by one that knows how near it is. */
   animation: none;
 }
+/* The pool of light is drawn for a phone standing alone; six of them
+   overlapping would be a fog. */
+.scatter .stand::before {
+  content: none;
+}
+/* The frame elsewhere is measured in pixels for a phone of one size. These
+   come in three sizes and shrink with the column, so the bezel and both radii
+   are the same proportions written against the screen's own width. */
+.scatter .shot-frame {
+  padding: 2cqw;
+  border-radius: 10.4cqw;
+  /* Where two screens overlap, a white screen on a white screen has no edge
+     at all, so the frame here is drawn harder than the standing phones' is:
+     a bezel a clear step off the page, a ring that reads as the phone's own
+     rim, and a tight shadow right under the edge — which is the part that
+     says this one is lying on top of that one — before the long one that
+     gives it height. All of it is ink mixed into the page, so under the lamp
+     the same rules give a pale rim on black. */
+  background: color-mix(in srgb, var(--ink) 24%, var(--bg));
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--ink) 46%, transparent),
+    0 3px 10px -2px color-mix(in srgb, #000 34%, transparent),
+    var(--lift) color-mix(in srgb, #000 58%, transparent);
+}
+.scatter .shot {
+  border-radius: 8.6cqw;
+}
 
-/* Stacked on a phone: still hung, never aligned. */
+/* On a phone the same board is two uneven columns and far taller. It is
+   still pinned by hand — there is a second set of positions for it — and it
+   is two columns rather than three because at three the screens are too
+   small to read as screens. */
 @media (max-width: 760px) {
-  .wall-pair {
-    flex-direction: column;
-    align-items: center;
-    gap: 3rem;
-    padding-bottom: 0;
+  .scatter {
+    --board: 276;
   }
-  /* A rotated box is wider than its width: at this angle the extra reach is
-     about height * sin(angle), so the screens come in a little to keep their
-     corners off the margin. */
-  .wall-pair .stand {
-    max-width: 278px;
+  .pin {
+    left: calc(var(--sx) * 1%);
+    top: calc(var(--sy) / var(--board) * 100%);
+    transform: rotate(var(--sr));
+    z-index: var(--sz);
   }
-  .hung-a {
-    transform: rotate(-1.4deg);
+  .pin-near {
+    width: 50%;
+    --drift: 22px;
   }
-  .hung-b {
-    transform: rotate(1.5deg);
-    margin-left: 0;
+  .pin-mid {
+    width: 44%;
+    --drift: 10px;
+  }
+  .pin-far {
+    width: 38%;
+    --drift: 3px;
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .hung-b {
-    transform: translateY(7rem);
+/* The movement. Each screen is knocked a little further off square and a
+   little low as it comes into the window, and settles onto its pin as it
+   rises; after that the near ones slide past faster than the far ones, which
+   is all that depth is. The distances are kept short on purpose: two
+   overlapping screens at different depths close on each other as they
+   drift, and a long drift buries a quarter of the one behind. Both run off the scroll position, so nothing moves
+   unless the reader moves it, and neither is what puts the screens on the
+   page — without a scroll timeline, or with motion turned down, they are
+   simply pinned where they belong. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .pin,
+    .hang {
+      animation: pin-settle linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 32%;
+    }
+    @keyframes pin-settle {
+      from {
+        transform: translateY(calc(var(--drift) * 2 + 24px))
+          rotate(calc(var(--r) * 4)) scale(0.94);
+      }
+      to {
+        transform: rotate(var(--r));
+      }
+    }
+    .scatter .stand,
+    .hang .clip {
+      animation: pin-drift linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+    @keyframes pin-drift {
+      from {
+        transform: translateY(var(--drift));
+      }
+      to {
+        transform: translateY(calc(var(--drift) * -1));
+      }
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) and (max-width: 760px) {
+    @keyframes pin-settle {
+      from {
+        transform: translateY(calc(var(--drift) * 2 + 16px))
+          rotate(calc(var(--sr) * 4)) scale(0.94);
+      }
+      to {
+        transform: rotate(var(--sr));
+      }
+    }
+  }
+}
+
+/* ── What you say ────────────────────────────────────────────────────────
+   Posts cut out of the feed and laid in a row, a few words under each. The
+   row has as many columns as there are things in the list, so another entry
+   simply takes a place. */
+.says {
+  display: grid;
+  grid-template-columns: repeat(var(--count), minmax(0, 1fr));
+  gap: clamp(1.5rem, 3.5vw, 3rem);
+  align-items: start;
+}
+/* Three cuttings of three heights, top edges level, look like a table that
+   failed. Set a little out of line and a hair off square they look laid
+   down by hand, which is what they are meant to be. */
+.say:nth-child(3n + 2) {
+  margin-top: 2.75rem;
+}
+.say:nth-child(3n) {
+  margin-top: 1rem;
+}
+.say:nth-child(odd) .clip {
+  transform: rotate(-0.6deg);
+}
+.say:nth-child(even) .clip {
+  transform: rotate(0.5deg);
+}
+/* A cutting has the edge of a piece of paper: a hairline and a short shadow,
+   both in the page's own ink. No bezel and no long lift — those belong to
+   the phones. */
+.clip {
+  overflow: hidden;
+  border-radius: 3px;
+  box-shadow:
+    0 0 0 1px var(--line2),
+    0 14px 28px -18px color-mix(in srgb, #000 55%, transparent);
+}
+.clip img {
+  /* Not `display`: which of the two shows is the palette rules' call above,
+     and a display set here would bring the hidden one back. */
+  vertical-align: top;
+  width: 100%;
+  height: auto;
+}
+
+/* On a phone the cuttings go one under another at the full width of the
+   column, which is very nearly the size they are in the app — so this is
+   the width at which they are actually read. */
+@media (max-width: 760px) {
+  .says {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.75rem;
+  }
+  .say:nth-child(n) {
+    margin-top: 0;
+  }
+}
+
+/* ── The things themselves ───────────────────────────────────────────────
+   One card for each kind of piece: the piece on its plaster, and a line.
+   They are set in a loose grid and then knocked out of it — a degree or so
+   off square, every other one dropped a little — for the same reason the
+   board is not a grid. `--r` and `--drift` are the board's own names, because
+   the movement further down is the board's own movement. */
+.hangs {
+  display: grid;
+  /* Three to a row and no more, so each thing is large enough to be looked
+     at as an object and not picked out of a contact sheet. */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(2.5rem, 4vw, 3.5rem) clamp(1.5rem, 3vw, 2.75rem);
+  align-items: start;
+}
+.hang {
+  position: relative;
+  --r: -0.8deg;
+  --sr: -0.8deg;
+  --drift: 16px;
+  transform: rotate(var(--r));
+}
+.hang:nth-child(3n + 2) {
+  --r: 0.7deg;
+  --sr: 0.7deg;
+  --drift: 30px;
+}
+.hang:nth-child(3n) {
+  --r: -0.3deg;
+  --sr: -0.3deg;
+  --drift: 5px;
+}
+.hang:nth-child(even) {
+  margin-top: 1.75rem;
+}
+/* TEMPORARY — review scaffolding, not design. The piece's file name, laid
+   over the corner of its picture so the cards can be told apart by name. It
+   is absolutely placed and so takes no room; delete this rule with
+   REVIEW_LABELS in hangings.tsx and nothing else moves. */
+.hang-label {
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  z-index: 1;
+  padding: 2px 7px;
+  font: 600 11px/1.4 ui-monospace, Menlo, monospace;
+  white-space: nowrap;
+  background: var(--ink);
+  color: var(--bg);
+}
+@media (max-width: 760px) {
+  .hangs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
