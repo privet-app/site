@@ -189,19 +189,21 @@ body {
 .rise {
   opacity: 1;
 }
+/* Opacity and a short rise, and nothing else. It also came into focus out of
+   a blur, and a blur is the one thing here the compositor cannot do for
+   free: every block that arrived was re-drawn through a filter on every
+   frame of its arrival, which on a long page is most of the time somebody
+   is scrolling. */
 .js .rise {
   opacity: 0;
   transform: translateY(16px);
-  filter: blur(7px);
 }
 .js .rise.shown {
   opacity: 1;
   transform: none;
-  filter: blur(0);
   transition:
     opacity 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) var(--delay, 0s),
-    transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) var(--delay, 0s),
-    filter 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) var(--delay, 0s);
+    transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) var(--delay, 0s);
 }
 
 /* A line drawn through something we mean to refuse. */
@@ -301,46 +303,6 @@ body {
   );
 }
 
-/* ── Scroll-driven drift ────────────────────────────────────────────────
-   A phone shifts a little as it passes through the window, so the page has
-   depth without anything jumping. Pure CSS on a view() timeline — no
-   scroll handler, no work on the main thread — and it simply does not
-   apply where the timeline isn't supported. */
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .stand {
-      animation: drift linear both;
-      animation-timeline: view();
-      animation-range: entry 0% exit 100%;
-    }
-    @keyframes drift {
-      from {
-        transform: translateY(26px);
-      }
-      to {
-        transform: translateY(-26px);
-      }
-    }
-
-    /* The masthead settles as you leave it. */
-    .hero-settle {
-      animation: settle linear both;
-      animation-timeline: view();
-      animation-range: exit 0% exit 100%;
-    }
-    @keyframes settle {
-      from {
-        opacity: 1;
-        transform: none;
-      }
-      to {
-        opacity: 0.25;
-        transform: translateY(-24px);
-      }
-    }
-  }
-}
-
 /* Changing the palette is a change of light, not a cut. */
 body,
 .shot,
@@ -348,13 +310,6 @@ body,
   transition:
     background-color 0.45s ease,
     color 0.45s ease;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .js .rise,
-  .js .rise.shown {
-    filter: none;
-  }
 }
 
 /* ── One room, pinned up six times ────────────────────────────────────
@@ -400,8 +355,6 @@ body,
 }
 .scatter .stand {
   max-width: none;
-  /* The scroll drift is replaced below by one that knows how near it is. */
-  animation: none;
 }
 /* The pool of light is drawn for a phone standing alone; six of them
    overlapping would be a fog. */
@@ -470,8 +423,7 @@ body,
    simply pinned where they belong. */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
-    .pin,
-    .hang {
+    .pin {
       animation: pin-settle linear both;
       animation-timeline: view();
       animation-range: entry 0% cover 32%;
@@ -485,8 +437,7 @@ body,
         transform: rotate(var(--r));
       }
     }
-    .scatter .stand,
-    .hang .clip {
+    .scatter .stand {
       animation: pin-drift linear both;
       animation-timeline: view();
       animation-range: entry 0% exit 100%;
@@ -573,8 +524,9 @@ body,
    One card for each kind of piece: the piece on its plaster, and a line.
    They are set in a loose grid and then knocked out of it — a degree or so
    off square, every other one dropped a little — for the same reason the
-   board is not a grid. `--r` and `--drift` are the board's own names, because
-   the movement further down is the board's own movement. */
+   board is not a grid. They do not move: the board above is the one place
+   on the page where movement is saying something, and fifteen more things
+   drifting under it was decoration that every scrolled frame paid for. */
 .hangs {
   display: grid;
   /* Three to a row and no more, so each thing is large enough to be looked
@@ -585,20 +537,13 @@ body,
 }
 .hang {
   position: relative;
-  --r: -0.8deg;
-  --sr: -0.8deg;
-  --drift: 16px;
-  transform: rotate(var(--r));
+  transform: rotate(-0.8deg);
 }
 .hang:nth-child(3n + 2) {
-  --r: 0.7deg;
-  --sr: 0.7deg;
-  --drift: 30px;
+  transform: rotate(0.7deg);
 }
 .hang:nth-child(3n) {
-  --r: -0.3deg;
-  --sr: -0.3deg;
-  --drift: 5px;
+  transform: rotate(-0.3deg);
 }
 .hang:nth-child(even) {
   margin-top: 1.75rem;
@@ -635,9 +580,10 @@ body,
   align-items: center;
   padding: 0.6rem 0.95rem;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--bg) 76%, transparent);
-  backdrop-filter: blur(16px) saturate(1.3);
-  -webkit-backdrop-filter: blur(16px) saturate(1.3);
+  /* Nearly opaque, and not frosted. A blurred backdrop on something fixed
+     to the window is re-blurred against whatever passes under it on every
+     frame of every scroll, which is a great deal of work for a pill. */
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ink) 11%, transparent);
 }
 @media (max-width: 640px) {

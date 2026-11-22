@@ -3,7 +3,7 @@
  * markup reads plainly, which means a browser will happily keep serving the
  * previous capture from cache — this is what makes it fetch the new one.
  */
-const CAPTURE = "13";
+const CAPTURE = "14";
 
 /**
  * A screen, as it actually runs. Captured from the app in the simulator once
@@ -24,6 +24,9 @@ export function Shot({
     height: 1240,
     draggable: false,
     loading: priority ? ("eager" as const) : ("lazy" as const),
+    // Decoded off the main thread, so a capture arriving mid-scroll does not
+    // hold a frame while it is unpacked.
+    decoding: "async" as const,
   };
   return (
     <div className="stand">
@@ -32,7 +35,7 @@ export function Shot({
         <img
           {...common}
           alt={alt}
-          src={`/screens/${name}-paper.jpg?v=${CAPTURE}`}
+          src={`/screens/${name}-paper.webp?v=${CAPTURE}`}
           className="shot shot-paper"
         />
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -40,7 +43,7 @@ export function Shot({
           {...common}
           alt=""
           aria-hidden
-          src={`/screens/${name}-amoled.jpg?v=${CAPTURE}`}
+          src={`/screens/${name}-amoled.webp?v=${CAPTURE}`}
           className="shot shot-amoled"
         />
       </div>

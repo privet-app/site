@@ -3,7 +3,7 @@
  * in shot.tsx: the filenames stay stable, so this is what makes a browser
  * let go of the previous one.
  */
-const CUT = "5";
+const CUT = "6";
 
 /**
  * One thing cut out of a screen: a post out of the feed, a piece off a wall.
@@ -40,7 +40,7 @@ export function Clip({
       <img
         {...common}
         alt={alt}
-        src={`/clips/${name}-paper.jpg?v=${CUT}`}
+        src={`/clips/${name}-paper.webp?v=${CUT}`}
         className="shot-paper"
       />
       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -48,7 +48,7 @@ export function Clip({
         {...common}
         alt=""
         aria-hidden
-        src={`/clips/${name}-amoled.jpg?v=${CUT}`}
+        src={`/clips/${name}-amoled.webp?v=${CUT}`}
         className="shot-amoled"
       />
     </div>
