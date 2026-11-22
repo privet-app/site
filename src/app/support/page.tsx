@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
-import { Head, Mail, Paper } from "@/components/paper";
+import { Head, Mail, Paper, Phone } from "@/components/paper";
 
 export const metadata: Metadata = {
   title: "Support · Privet",
   description:
-    "How to reach a person about Privet: one address, read by somebody, answered within a day.",
+    "How to reach a person about Privet: an address read by somebody and answered within a day, and a number for the things that cannot wait.",
 };
 
 export default function SupportPage() {
@@ -13,7 +13,7 @@ export default function SupportPage() {
     <Paper
       kicker="Support"
       title="Write to us."
-      standfirst="One address. A person reads it, and answers."
+      standfirst="An address a person reads and answers. A number, for when that is too slow."
       updated="16 October 2026"
     >
       <Head>The address</Head>
@@ -25,6 +25,17 @@ export default function SupportPage() {
         in, you want your account gone, you want to know what we hold about you.
         Reports of content or behaviour are read and acted on within 24 hours.
         Everything else gets an answer from a person, usually the same day.
+      </p>
+
+      <Head>The number</Head>
+      <p>
+        <Phone />
+      </p>
+      <p>
+        For the things that cannot wait for a reply: somebody is in danger,
+        somebody is being hurt, an account has been taken. Write for everything
+        else — it leaves a record, and a written account of what happened is
+        what a report needs.
       </p>
 
       <Head>The things people ask first</Head>

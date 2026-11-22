@@ -12,9 +12,25 @@ import Link from "next/link";
  */
 export const SUPPORT_MAIL = "io.taufeeq.ahmed@gmail.com";
 
+/**
+ * The number, for the things that cannot wait for a reply.
+ *
+ * Written once here for the same reason as the address above. In full
+ * international form, because a support number a reader has to guess the
+ * country code for is a number they do not ring.
+ */
+export const SUPPORT_PHONE = "+91 89190 49647";
+
 /** The address as a link, written the same way everywhere it appears. */
 export function Mail() {
   return <a href={`mailto:${SUPPORT_MAIL}`}>{SUPPORT_MAIL}</a>;
+}
+
+/** The number as a link, so a phone dials it rather than asking to be copied. */
+export function Phone() {
+  return (
+    <a href={`tel:${SUPPORT_PHONE.replace(/\s/g, "")}`}>{SUPPORT_PHONE}</a>
+  );
 }
 
 /**
