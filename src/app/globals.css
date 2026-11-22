@@ -519,50 +519,6 @@ body,
     margin-top: 0;
   }
 }
-
-/* ── The things themselves ───────────────────────────────────────────────
-   One card for each kind of piece: the piece on its plaster, and a line.
-   They are set in a loose grid and then knocked out of it — a degree or so
-   off square, every other one dropped a little — for the same reason the
-   board is not a grid. They do not move: the board above is the one place
-   on the page where movement is saying something, and fifteen more things
-   drifting under it was decoration that every scrolled frame paid for. */
-.hangs {
-  display: grid;
-  /* Three to a row and no more, so each thing is large enough to be looked
-     at as an object and not picked out of a contact sheet. */
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(2.5rem, 4vw, 3.5rem) clamp(1.5rem, 3vw, 2.75rem);
-  align-items: start;
-}
-.hang {
-  position: relative;
-  transform: rotate(-0.8deg);
-}
-.hang:nth-child(3n + 2) {
-  transform: rotate(0.7deg);
-}
-.hang:nth-child(3n) {
-  transform: rotate(-0.3deg);
-}
-.hang:nth-child(even) {
-  margin-top: 1.75rem;
-}
-/* TEMPORARY — review scaffolding, not design. The piece's file name, laid
-   over the corner of its picture so the cards can be told apart by name. It
-   is absolutely placed and so takes no room; delete this rule with
-   REVIEW_LABELS in hangings.tsx and nothing else moves. */
-.hang-label {
-  position: absolute;
-  left: 6px;
-  top: 6px;
-  z-index: 1;
-  padding: 2px 7px;
-  font: 600 11px/1.4 ui-monospace, Menlo, monospace;
-  white-space: nowrap;
-  background: var(--ink);
-  color: var(--bg);
-}
 @media (max-width: 760px) {
   .hangs {
     grid-template-columns: repeat(2, minmax(0, 1fr));

@@ -1,16 +1,6 @@
 import { Clip } from "@/components/clip";
 
 /**
- * TEMPORARY, for one review and not part of the design: prints each piece's
- * file name on its card so that somebody choosing which to drop can read the
- * name off the page. Set this to false, or delete it with the one span that
- * reads it and the `.hang-label` rule in globals.css, before any of this is
- * deployed. The label is laid over the picture and takes up no room, so
- * removing it moves nothing.
- */
-const REVIEW_LABELS = true;
-
-/**
  * The things that can be hung, one card apiece: the piece as it hangs on a
  * real wall, plaster and tape and shadow included, and one line saying what
  * it is. `name` is the file the picture comes from; `what` is set in the
@@ -55,11 +45,6 @@ export function Hangings() {
             width={640}
             height={800}
           />
-          {REVIEW_LABELS && (
-            <span className="hang-label" aria-hidden>
-              {piece.name}
-            </span>
-          )}
           <figcaption className="mt-4 text-[0.9375rem] leading-[1.5] text-sub">
             {/* The name on its own line, so that in a narrow column the
                 caption breaks there on every card and not wherever it runs
