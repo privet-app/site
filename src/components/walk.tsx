@@ -33,9 +33,17 @@ export type Ring = {
  */
 const RING = "#f04a2f";
 
-/** iPhone screenshots, all of them, so the box is never guessed at. */
-const SHOT_W = 281;
-const SHOT_H = 612;
+/**
+ * The shots' own pixels, so the box is never guessed at and nothing shifts
+ * while they load.
+ *
+ * An iPhone 16 Pro screenshot at full size. These were small copies at first
+ * — 281 across — and printing one at 330 was upscaling it, which is exactly
+ * the opposite of the point when the reader is trying to pick one row out of
+ * sixteen. Next resizes down from here for whatever width it serves.
+ */
+const SHOT_W = 1206;
+const SHOT_H = 2622;
 
 export function Shot({
   src,
@@ -54,13 +62,13 @@ export function Shot({
 }) {
   return (
     <figure className="min-w-0">
-      <div className="relative overflow-hidden rounded-[14px] border border-line2 bg-black">
+      <div className="relative max-w-[340px] overflow-hidden rounded-[14px] border border-line2 bg-black">
         <Image
           src={src}
           alt={alt}
           width={SHOT_W}
           height={SHOT_H}
-          sizes="(min-width: 640px) 220px, 45vw"
+          sizes="(min-width: 640px) 340px, 92vw"
           className="block h-auto w-full"
         />
         <span
@@ -76,7 +84,7 @@ export function Shot({
           }}
         />
       </div>
-      <figcaption className="mt-3 flex gap-2.5 text-[0.9375rem] leading-[1.55] text-sub">
+      <figcaption className="mt-3 flex max-w-[340px] gap-2.5 text-[1rem] leading-[1.55] text-sub">
         <span
           aria-hidden
           className="micro mt-[0.45rem] shrink-0 text-acc"
@@ -93,13 +101,7 @@ export function Shot({
   );
 }
 
-/**
- * One leg of the walk: a title, a line saying why, and the pictures.
- *
- * Three at a time on a wide page and two on a phone — which is where this is
- * read, because the person reading it is holding the phone the instructions
- * are about.
- */
+/** One leg of the walk: a title, a line saying why, and the pictures. */
 export function Leg({
   n,
   title,
@@ -120,10 +122,19 @@ export function Leg({
   );
 }
 
-/** The row of screenshots under a leg's words. */
+/**
+ * The row of screenshots under a leg's words.
+ *
+ * Two across and no more. Three fitted the measure and left each shot at
+ * about 240px, which is under the screenshots' own 281 — so iOS type that is
+ * small on a phone was being printed smaller again, and the reader is meant
+ * to recognise a row from it. Two puts them at roughly 330 on anything wider
+ * than a phone, and one on a phone, which is the widest they go before the
+ * upscale starts to show.
+ */
 export function Shots({ children }: { children: React.ReactNode }) {
   return (
-    <div className="mt-8 grid grid-cols-2 gap-x-5 gap-y-9 sm:grid-cols-3 lg:grid-cols-4">
+    <div className="mt-8 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2">
       {children}
     </div>
   );
