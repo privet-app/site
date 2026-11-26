@@ -592,3 +592,105 @@ body,
     0 0 0 1px var(--shot-ring),
     0 0 70px -10px var(--shot-halo);
 }
+
+/* ── Getting the app ─────────────────────────────────────────────────────
+   One link, written the same in the masthead and in the bar that picks it
+   up on the way down the page. */
+.store-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.85rem 1.6rem;
+  border: 1px solid var(--acc);
+  color: var(--acc);
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+.store-link:hover {
+  background: var(--acc);
+  color: var(--acc-ink);
+}
+
+/* The lamp: the accent bled a little way past the edge of the link and
+   breathing, the way a bulb on the wire in the app does. It is light around
+   an object rather than a colour of its own — no second hue, no halo wider
+   than the thing it comes off, and nothing drawn over the type. */
+.lamp {
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--acc) 28%, transparent);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .lamp {
+    animation: lamp 3.4s ease-in-out infinite;
+  }
+}
+@keyframes lamp {
+  0%,
+  100% {
+    box-shadow: 0 0 10px 0 color-mix(in srgb, var(--acc) 16%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 22px 3px color-mix(in srgb, var(--acc) 30%, transparent);
+  }
+}
+/* Under the lamp the page is black, and a wash that reads as a glow on paper
+   reads as a smudge on it — so it is brought up and tightened. */
+:root[data-theme="amoled"] .lamp,
+:root[data-theme="dark"] .lamp {
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--acc) 34%, transparent);
+}
+
+/* ── The bar on the way down ─────────────────────────────────────────────
+   Off the top of the window until the masthead's own link has gone past,
+   then down. Fixed, so it is a scroll away from anywhere. */
+.dock {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--bg) 94%, transparent);
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1),
+    opacity 0.3s ease;
+}
+.dock.up {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+.dock-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  /* The masthead's own measure, so the wordmark here sits over the column
+     the page is set in rather than against the window. */
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 0.7rem 1.5rem;
+}
+/* Room for the theme pill, which is fixed in the same corner. */
+.dock-row .store-link {
+  margin-right: 7.5rem;
+  padding: 0.55rem 1.1rem;
+}
+@media (max-width: 640px) {
+  .dock-row {
+    padding: 0.6rem 1rem;
+  }
+  .dock-row .store-link {
+    margin-right: 5.5rem;
+    padding: 0.5rem 0.85rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dock {
+    transition: none;
+  }
+}
