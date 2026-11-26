@@ -6,7 +6,7 @@ import { Leg, Shot, Shots } from "@/components/walk";
 export const metadata: Metadata = {
   title: "No email on your Apple Account · Privet",
   description:
-    "Privet needs an email address, and some Apple Accounts are made with a mobile number and carry none. Three steps, with pictures: add an address, clear Privet's old sign-in, open the app again.",
+    "Privet does not open an account without an email address, and some Apple Accounts are made with a mobile number and carry none. Three steps, with pictures: add an address, clear Privet's old sign-in, open the app again.",
 };
 
 /**
@@ -23,17 +23,27 @@ export default function AppleEmailPage() {
   return (
     <Paper
       kicker="If you cannot get in"
-      title="Your Apple Account has no email address."
-      standfirst="Privet is an address: it is how an account is told apart from every other. Apple can put one on your account in about a minute, and then the door opens. Three steps, in order."
+      title="For safety, Privet does not open an account without an email address."
+      standfirst="Your Apple Account was made with a mobile number and carries none, so Apple has no address to pass on. Apple can add one in about a minute. Three steps, in order."
       updated="27 November 2026"
     >
       <div className="legal">
         <p>
+          <strong>Why we insist.</strong> This is a house you are let into by
+          somebody who already knows you, and that only means anything if an
+          account belongs to a person. An address is the one thing tying yours
+          to somebody outside this app: it is how we reach you when something
+          is wrong with your account, how we answer you when you write to us,
+          and how a member who is thrown out for hurting somebody is not simply
+          back by morning. An account with nothing behind it is an account
+          nobody can answer for — not us, and not the member who vouched for
+          you.
+        </p>
+        <p>
           In India — and in Brazil, mainland China and Mexico — Apple lets you
           make an Apple Account with a mobile number and no email at all. It
           works everywhere else, so most people never find out they have one.
-          Signing in to Privet is where it shows up, because Apple has no
-          address to pass on and we have nothing to open an account with.
+          Signing in to Privet is where it shows up.
         </p>
         <p>
           Nothing below deletes anything or costs anything, and none of it
