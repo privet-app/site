@@ -21,6 +21,18 @@ export const SUPPORT_MAIL = "io.taufeeq.ahmed@gmail.com";
  */
 export const SUPPORT_PHONE = "+91 89190 49647";
 
+/**
+ * Where the app is got.
+ *
+ * The listing, not a redirect through anything: a link that counts clicks is
+ * a link that can go down, and this one is printed on the page people are
+ * sent to when somebody hands them a key. The `/in/` is Apple's own regional
+ * path and it forwards a reader in another country to their own store rather
+ * than refusing them.
+ */
+export const APP_STORE_URL =
+  "https://apps.apple.com/in/app/privet-app/id6811027919";
+
 /** The address as a link, written the same way everywhere it appears. */
 export function Mail() {
   return <a href={`mailto:${SUPPORT_MAIL}`}>{SUPPORT_MAIL}</a>;

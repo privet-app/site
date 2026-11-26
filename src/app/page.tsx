@@ -1,6 +1,6 @@
 import { Clip } from "@/components/clip";
 import { Hangings } from "@/components/hangings";
-import { LegalLinks } from "@/components/paper";
+import { APP_STORE_URL, LegalLinks } from "@/components/paper";
 import { Rise, Struck } from "@/components/reveal";
 import { Shot } from "@/components/shot";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -424,6 +424,22 @@ export default function Home() {
             <p className="mx-auto mt-8 max-w-[46ch] text-[1.125rem] leading-[1.7] text-sub">
               No waitlist, no request button. Privet grows the way friendships
               do — one person bringing another, by hand.
+            </p>
+          </Rise>
+          {/* For the reader who HAS been brought: the one thing the page
+              above leaves them with nowhere to go. It sits under the
+              paragraph that says they cannot sign up, because downloading is
+              not signing up — the door is still the pass in somebody else's
+              hand, and the app says so on its first screen. */}
+          <Rise index={1}>
+            <a
+              href={APP_STORE_URL}
+              className="mt-10 inline-block border border-acc px-7 py-3 text-acc transition-colors hover:bg-acc hover:text-acc-ink"
+            >
+              <span className="micro">Download on the App Store</span>
+            </a>
+            <p className="mx-auto mt-5 max-w-[40ch] text-[0.9375rem] leading-[1.7] text-faint">
+              Already been introduced? The app is free, and iOS only.
             </p>
           </Rise>
         </Container>
